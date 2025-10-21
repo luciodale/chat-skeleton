@@ -1,17 +1,26 @@
 import { useState } from "react";
 import { Header } from "./components/Header";
 import { LeftSidebar } from "./components/LeftSidebar";
-import { defaultCollpased } from "./defaults";
+import { defaultLeftSidebarCollapsed } from "./defaults";
 import { Chat } from "./components/Chat";
 import { RightSidebar } from "./components/RightSidebar";
 
 export function Skeleton() {
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollpased);
+  const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(
+    defaultLeftSidebarCollapsed
+  );
+
+  function onLeftSidebarToggleCollapse() {
+    setIsLeftSidebarCollapsed(!isLeftSidebarCollapsed);
+  }
 
   return (
     <div className="flex" style={{ height: "100dvh" }}>
       <div className="relative z-0 flex h-full w-full overflow-hidden">
-        <LeftSidebar />
+        <LeftSidebar
+          isLeftSidebarCollapsed={isLeftSidebarCollapsed}
+          onLeftSidebarToggleCollapse={onLeftSidebarToggleCollapse}
+        />
         <div className="relative flex h-full max-w-full flex-1 flex-col overflow-hidden">
           <div className="h-full relative flex w-full grow overflow-hidden bg-presentation">
             {/* split between main and left component */}
@@ -19,7 +28,10 @@ export function Skeleton() {
               {/* main chat */}
               <main className="flex h-full flex-col overflow-y-auto">
                 <div className="flex h-full w-full flex-col">
-                  <Header />
+                  <Header
+                    isLeftSidebarCollapsed={isLeftSidebarCollapsed}
+                    onLeftSidebarToggleCollapse={onLeftSidebarToggleCollapse}
+                  />
                   <Chat />
                 </div>
               </main>

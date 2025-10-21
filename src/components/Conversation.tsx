@@ -40,14 +40,14 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col user-turn">
-              <h2 className="select-none font-semibold text-base">sohudfo§</h2>
+              <h2 className="text-text-secondary">sohudfo§</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div
                     className="text-message flex min-h-[20px] flex-col items-start gap-3 overflow-visible [.text-message+&]:mt-5"
                     dir="auto"
                   >
-                    <div className="markdown prose message-content dark:prose-invert light w-full break-words dark:text-gray-20">
+                    <div className="markdown prose message-content text-text-secondary light w-full break-words dark:text-gray-20">
                       <p className="mb-2 whitespace-pre-wrap">hello model</p>
                     </div>
                   </div>
@@ -76,11 +76,8 @@ function MockConvo() {
                       </svg>
                     </button>
                     <audio
-                      controls=""
                       preload="none"
-                      controlslist="nodownload nofullscreen noremoteplayback"
                       id="audio-1e2b67ee-3175-4374-a096-188d7aa6d057"
-                      autoPlay=""
                       src="http://localhost:3090/"
                       style={{
                         position: "absolute",
@@ -217,13 +214,13 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col agent-turn">
-              <h2 className="select-none font-semibold text-base">Gemini</h2>
+              <h2 className="text-text-secondary">Gemini</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div className="mb-5">
                     <button
                       type="button"
-                      className="group mt-3 flex w-fit items-center justify-center rounded-xl bg-surface-tertiary px-3 py-2 text-xs leading-[18px] animate-thinking-appear"
+                      className="group mt-3 flex w-fit items-center justify-center rounded-xl bg-surface-tertiary px-3 py-2 text-xs leading-[18px] animate-thinking-appear text-text-secondary"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -287,7 +284,7 @@ function MockConvo() {
                     className="text-message flex min-h-[20px] flex-col items-start gap-3 overflow-visible [.text-message+&]:mt-5"
                     dir="auto"
                   >
-                    <div className="markdown prose message-content dark:prose-invert light w-full break-words dark:text-gray-100">
+                    <div className="markdown prose message-content text-text-secondary light w-full break-words ">
                       <p className="mb-2 whitespace-pre-wrap">
                         Hello! How can I help you today?
                       </p>
@@ -322,14 +319,14 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col user-turn">
-              <h2 className="select-none font-semibold text-base">sohudfo§</h2>
+              <h2 className="text-text-secondary">sohudfo§</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div
                     className="text-message flex min-h-[20px] flex-col items-start gap-3 overflow-visible [.text-message+&]:mt-5"
                     dir="auto"
                   >
-                    <div className="markdown prose message-content dark:prose-invert light w-full break-words dark:text-gray-20">
+                    <div className="markdown prose message-content text-text-secondary light w-full break-words dark:text-gray-20">
                       <p className="mb-2 whitespace-pre-wrap">more text</p>
                     </div>
                   </div>
@@ -485,13 +482,13 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col agent-turn">
-              <h2 className="select-none font-semibold text-base">Gemini</h2>
+              <h2 className="text-text-secondary">Gemini</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div className="mb-5">
                     <button
                       type="button"
-                      className="group mt-3 flex w-fit items-center justify-center rounded-xl bg-surface-tertiary px-3 py-2 text-xs leading-[18px] animate-thinking-appear"
+                      className="group mt-3 flex w-fit items-center justify-center rounded-xl bg-surface-tertiary px-3 py-2 text-xs leading-[18px] animate-thinking-appear text-text-secondary"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -562,7 +559,7 @@ function MockConvo() {
                     className="text-message flex min-h-[20px] flex-col items-start gap-3 overflow-visible [.text-message+&]:mt-5"
                     dir="auto"
                   >
-                    <div className="markdown prose message-content dark:prose-invert light w-full break-words dark:text-gray-100">
+                    <div className="markdown prose message-content text-text-secondary light w-full break-words ">
                       <p className="mb-2 whitespace-pre-wrap">
                         Certainly! I can provide more text in many different
                         ways.

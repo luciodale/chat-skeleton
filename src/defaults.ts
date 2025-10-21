@@ -1,1 +1,1 @@
-export const defaultCollpased = true;
+export const defaultLeftSidebarCollapsed = true;
