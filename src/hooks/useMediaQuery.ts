@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-export function useMediaQuery(query: string) {
+const MEDIA_QUERY_SM = { small: "(max-width: 767px)" } as const;
+
+type MediaQuery = keyof typeof MEDIA_QUERY_SM;
+
+export function useMediaQuery(queryKey: MediaQuery) {
+  const query = MEDIA_QUERY_SM[queryKey];
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {

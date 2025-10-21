@@ -1,4 +1,3 @@
-import { useMediaQuery } from "../hooks/useMediaQuery";
 import { NewChat } from "../icons/NewChat";
 import { Sidebar } from "../icons/Sidebar";
 import { Button } from "./Button";
@@ -12,8 +11,6 @@ export function LeftSidebar({
   isLeftSidebarCollapsed,
   onLeftSidebarToggleCollapse,
 }: LeftSidebarProps) {
-  const isSmallScreen = useMediaQuery("(max-width: 767px)");
-
   return (
     <div
       style={{
