@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const MEDIA_QUERY_SM = { small: "(max-width: 640px)" } as const;
+const MEDIA_QUERY_SM = { small: "(max-width: 767px)" } as const;
 
 type MediaQuery = keyof typeof MEDIA_QUERY_SM;
 
