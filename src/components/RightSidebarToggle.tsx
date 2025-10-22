@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import cn from "../utils/cn";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import cn from "../utils/cn";
 
 type RightSidebarToggleProps = {
   isRightSidebarCollapsed: boolean;
@@ -34,15 +34,18 @@ export function RightSidebarToggle({
         className={cn(
           "fixed top-1/2 -translate-y-1/2 cursor-pointer",
           !isRightSidebarCollapsed ? "rotate-0 mr-9" : "rotate-180 mr-16",
-          isSmallScreen && isRightSidebarCollapsed && "mr-9",
+          isSmallScreen && isRightSidebarCollapsed && "mr-10",
           isSmallScreen && !isRightSidebarCollapsed && "hidden"
         )}
       >
-        <span>
+        <div>
           <div
-            className="flex h-[72px] w-8 items-center justify-center hover:opacity-100 opacity-25"
+            className="relative flex h-[72px] w-8 items-center justify-center hover:opacity-100 opacity-50"
             style={{ ...transition }}
           >
+          
+          <div className="sm:hidden absolute top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-surface-active-alt"/>
+
             <div className="flex h-6 w-6 flex-col items-center">
               {/* Top bar */}
               <div
@@ -62,7 +65,7 @@ export function RightSidebarToggle({
               />
             </div>
           </div>
-        </span>
+        </div>
       </button>
     </div>
   );
