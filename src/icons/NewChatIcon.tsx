@@ -1,4 +1,4 @@
-export function NewChat() {
+export function NewChatIcon() {
   return (
     <svg
       width="24"

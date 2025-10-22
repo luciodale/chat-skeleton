@@ -3,7 +3,11 @@ import { Chat } from "./components/Chat";
 import { Header } from "./components/Header";
 import { LeftSidebar } from "./components/LeftSidebar";
 import { RightSidebar } from "./components/RightSidebar";
-import { defaultLeftSidebarCollapsed, defaultRightSidebarCollapsed } from "./defaults";
+import {
+  defaultLeftSidebarCollapsed,
+  defaultRightSidebarCollapsed,
+} from "./defaults";
+import { RightSidebarToggle } from "./components/RightSidebarToggle";
 
 export function Skeleton() {
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(
@@ -13,7 +17,7 @@ export function Skeleton() {
   const [isRightSidebarCollapsed, setIsRightSidebarCollapsed] = useState(
     defaultRightSidebarCollapsed
   );
- 
+
   return (
     <div className="flex" style={{ height: "100dvh" }}>
       <div className="relative z-0 flex h-full w-full overflow-hidden">
@@ -37,7 +41,14 @@ export function Skeleton() {
               </main>
               {/*  right sidebar */}
             </div>
-            <RightSidebar isRightSidebarCollapsed={isRightSidebarCollapsed} setIsRightSidebarCollapsed={setIsRightSidebarCollapsed} />
+            <RightSidebarToggle
+              isRightSidebarCollapsed={isRightSidebarCollapsed}
+              setIsRightSidebarCollapsed={setIsRightSidebarCollapsed}
+            />
+            <RightSidebar
+              isRightSidebarCollapsed={isRightSidebarCollapsed}
+              setIsRightSidebarCollapsed={setIsRightSidebarCollapsed}
+            />
           </div>
         </div>
       </div>
