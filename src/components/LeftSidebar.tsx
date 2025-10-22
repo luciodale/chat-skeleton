@@ -1,15 +1,16 @@
+import { Dispatch, SetStateAction } from "react";
 import { NewChat } from "../icons/NewChat";
 import { Sidebar } from "../icons/Sidebar";
 import { Button } from "./Button";
 
 type LeftSidebarProps = {
   isLeftSidebarCollapsed: boolean;
-  onLeftSidebarToggleCollapse: () => void;
+  setIsLeftSidebarCollapsed: Dispatch<SetStateAction<boolean>>
 };
 
 export function LeftSidebar({
   isLeftSidebarCollapsed,
-  onLeftSidebarToggleCollapse,
+  setIsLeftSidebarCollapsed,
 }: LeftSidebarProps) {
   return (
     <div
@@ -23,7 +24,7 @@ export function LeftSidebar({
       className="top-0 bottom-0 z-50 active w-[320px] md:w-[260px] flex-shrink-0 transform overflow-x-hidden bg-surface-primary-alt transition-all duration-200 ease-in-out"
     >
       <div className="flex items-center w-full justify-between gap-4 p-2 h-14">
-        <Button onClick={onLeftSidebarToggleCollapse}>
+        <Button onClick={() => setIsLeftSidebarCollapsed(!isLeftSidebarCollapsed)}>
           <Sidebar />
         </Button>
         <Button onClick={() => {}}>

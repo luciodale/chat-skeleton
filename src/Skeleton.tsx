@@ -1,25 +1,25 @@
 import { useState } from "react";
+import { Chat } from "./components/Chat";
 import { Header } from "./components/Header";
 import { LeftSidebar } from "./components/LeftSidebar";
-import { defaultLeftSidebarCollapsed } from "./defaults";
-import { Chat } from "./components/Chat";
 import { RightSidebar } from "./components/RightSidebar";
+import { defaultLeftSidebarCollapsed, defaultRightSidebarCollapsed } from "./defaults";
 
 export function Skeleton() {
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(
     defaultLeftSidebarCollapsed
   );
 
-  function onLeftSidebarToggleCollapse() {
-    setIsLeftSidebarCollapsed(!isLeftSidebarCollapsed);
-  }
-
+  const [isRightSidebarCollapsed, setIsRightSidebarCollapsed] = useState(
+    defaultRightSidebarCollapsed
+  );
+ 
   return (
     <div className="flex" style={{ height: "100dvh" }}>
       <div className="relative z-0 flex h-full w-full overflow-hidden">
         <LeftSidebar
           isLeftSidebarCollapsed={isLeftSidebarCollapsed}
-          onLeftSidebarToggleCollapse={onLeftSidebarToggleCollapse}
+          setIsLeftSidebarCollapsed={setIsLeftSidebarCollapsed}
         />
         <div className="relative flex h-full max-w-full flex-1 flex-col overflow-hidden">
           <div className="h-full relative flex w-full grow overflow-hidden bg-presentation">
@@ -30,14 +30,14 @@ export function Skeleton() {
                 <div className="flex h-full w-full flex-col">
                   <Header
                     isLeftSidebarCollapsed={isLeftSidebarCollapsed}
-                    onLeftSidebarToggleCollapse={onLeftSidebarToggleCollapse}
+                    setIsLeftSidebarCollapsed={setIsLeftSidebarCollapsed}
                   />
                   <Chat />
                 </div>
               </main>
               {/*  right sidebar */}
             </div>
-            <RightSidebar />
+            <RightSidebar isRightSidebarCollapsed={isRightSidebarCollapsed} setIsRightSidebarCollapsed={setIsRightSidebarCollapsed} />
           </div>
         </div>
       </div>
