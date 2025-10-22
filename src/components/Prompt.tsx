@@ -10,7 +10,7 @@ export function Prompt() {
                 name=""
                 id=""
               ></textarea>
-              <div className="items-between flex gap-2 pb-2 flex-row">
+              <div className="items-between justify-center flex gap-2 pb-2 px-4 flex-row">
                 action items
               </div>
             </div>

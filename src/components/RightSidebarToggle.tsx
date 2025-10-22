@@ -32,7 +32,7 @@ export function RightSidebarToggle({
       <button
         onClick={() => setIsRightSidebarCollapsed(!isRightSidebarCollapsed)}
         className={cn(
-          "fixed z-10 top-1/2 -translate-y-1/2 cursor-pointer",
+          "fixed top-1/2 -translate-y-1/2 cursor-pointer",
           !isRightSidebarCollapsed ? "rotate-0 mr-9" : "rotate-180 mr-16",
           isSmallScreen && isRightSidebarCollapsed && "mr-9",
           isSmallScreen && !isRightSidebarCollapsed && "hidden"

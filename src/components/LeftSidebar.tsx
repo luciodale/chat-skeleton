@@ -4,6 +4,9 @@ import { SidebarIcon } from "../icons/SidebarIcon";
 import { Button } from "./Button";
 import cn from "../utils/cn";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import { ThreeDotsIcon } from "../icons/ThreeDotsIcon";
+import { LeftSidebarItem } from "./LeftSidebarItem";
+import { GoogleIcon } from "../icons/GoogleIcon";
 
 type LeftSidebarProps = {
   isLeftSidebarCollapsed: boolean;
@@ -50,7 +53,26 @@ export function LeftSidebar({
             <NewChatIcon />
           </Button>
         </div>
-        <div>sdflds,f sd,f lds,f dslf, sdlf, sdlf, sldf, dls f</div>
+        <div className="p-2 flex flex-col gap-2">
+          <LeftSidebarItem>
+            <div className="w-full flex items-center justify-between px-2 text-text-primary">
+              <div className="flex items-center gap-2">
+                <GoogleIcon />
+                Title of Chat
+              </div>
+              <ThreeDotsIcon />
+            </div>
+          </LeftSidebarItem>
+          <LeftSidebarItem>
+            <div className="w-full flex items-center justify-between px-2 text-text-primary">
+              <div className="flex items-center gap-2">
+                <GoogleIcon />
+                Another Chat
+              </div>
+              <ThreeDotsIcon />
+            </div>
+          </LeftSidebarItem>
+        </div>
       </div>
     </>
   );
