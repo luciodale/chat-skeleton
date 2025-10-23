@@ -30,7 +30,7 @@ export function Skeleton() {
             {/* split between main and left component */}
             <div className="flex flex-col transition-width relative h-full w-full flex-1 overflow-auto bg-presentation">
               {/* main chat */}
-              <main className="flex h-full flex-col overflow-y-auto">
+              <main className="flex h-full flex-col overflow-y-auto overscroll-contain">
                 <div className="flex h-full w-full flex-col">
                   <Header
                     isLeftSidebarCollapsed={isLeftSidebarCollapsed}
