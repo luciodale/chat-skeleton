@@ -54,7 +54,7 @@ export function LeftSidebar({
           </Button>
         </div>
         <div className="p-2 flex flex-col gap-2">
-          <LeftSidebarItem>
+          <LeftSidebarItem isActive={true}>
             <div className="w-full flex items-center justify-between px-2 text-text-primary">
               <div className="flex items-center gap-2">
                 <GoogleIcon />
@@ -63,7 +63,7 @@ export function LeftSidebar({
               <ThreeDotsIcon />
             </div>
           </LeftSidebarItem>
-          <LeftSidebarItem>
+          <LeftSidebarItem isActive={false}>
             <div className="w-full flex items-center justify-between px-2 text-text-primary">
               <div className="flex items-center gap-2">
                 <GoogleIcon />

@@ -27,7 +27,7 @@ function MockConvo() {
             <div className="relative flex flex-shrink-0 flex-col items-center">
               <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
                 <div
-                  title="sohudfo§"
+                  title="User"
                   className="relative flex items-center justify-center"
                   style={{ width: "28.8px", height: "28.8px" }}
                 >
@@ -40,7 +40,7 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col user-turn">
-              <h2 className="text-text-secondary">sohudfo§</h2>
+              <h2 className="text-text-secondary">User</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div
@@ -306,7 +306,7 @@ function MockConvo() {
             <div className="relative flex flex-shrink-0 flex-col items-center">
               <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-full">
                 <div
-                  title="sohudfo§"
+                  title="User"
                   className="relative flex items-center justify-center"
                   style={{ width: "28.8px", height: "28.8px" }}
                 >
@@ -319,7 +319,7 @@ function MockConvo() {
               </div>
             </div>
             <div className="relative flex w-11/12 flex-col user-turn">
-              <h2 className="text-text-secondary">sohudfo§</h2>
+              <h2 className="text-text-secondary">User</h2>
               <div className="flex flex-col gap-1">
                 <div className="flex max-w-full flex-grow flex-col gap-0">
                   <div
