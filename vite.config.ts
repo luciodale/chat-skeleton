@@ -31,6 +31,7 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
+        // acting as fallback before the meta tags in html are loaded
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
