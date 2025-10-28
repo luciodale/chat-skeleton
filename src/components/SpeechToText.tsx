@@ -19,17 +19,19 @@ export function SpeechToText({
   text,
   disabled,
 }: SpeechToTextProps) {
-  const { isListening, start, stop, browserSupportsSpeechRecognition } =
-    useBrowserSTT({
-      setText,
-      text,
-      options: {
-        language,
-        continuous,
-      },
-    });
-
-  const handleClick = () => (isListening ? stop() : start());
+  const {
+    isListening,
+    startRecording,
+    stopRecording,
+    browserSupportsSpeechRecognition,
+  } = useBrowserSTT({
+    setText,
+    text,
+    options: {
+      language,
+      continuous,
+    },
+  });
 
   return (
     <div>
@@ -37,7 +39,7 @@ export function SpeechToText({
         <button
           type="button"
           className={cn(isListening && "animate-pulse")}
-          onClick={handleClick}
+          onClick={isListening ? stopRecording : startRecording}
           disabled={disabled}
           aria-label="Use microphone"
           aria-pressed={isListening}

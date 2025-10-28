@@ -1,5 +1,11 @@
 // hooks/useBrowserSTT.ts
-import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -16,17 +22,15 @@ type UseBrowserSTTProps = {
 };
 
 export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
-  const { continuous = false } = options;
+  const { language, continuous = false } = options;
   const {
-    listening,
+    listening: isListening,
     finalTranscript,
     interimTranscript,
     resetTranscript,
     isMicrophoneAvailable,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
-
-  const isListening = useMemo(() => listening, [listening]);
 
   const lastInterimRef = useRef<string | null>(null);
   const lastFinalRef = useRef<string | null>(null);
@@ -66,7 +70,7 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
   }, [finalTranscript, setText]);
 
   // start and stop don't need to be memoized because they're called onClick
-  const start = () => {
+  const startRecording = useCallback(() => {
     if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
     if (isListening) return;
     sessionBaseRef.current = text;
@@ -74,20 +78,27 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
     lastFinalRef.current = null;
     resetTranscript();
     SpeechRecognition.startListening({
-      // language,
+      language,
       continuous,
     });
-  };
+  }, [
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable,
+    isListening,
+    text,
+    continuous,
+    resetTranscript,
+  ]);
 
-  const stop = () => {
+  const stopRecording = useCallback(() => {
     if (!isListening) return;
     SpeechRecognition.stopListening();
-  };
+  }, [isListening]);
 
   return {
     isListening,
-    start,
-    stop,
+    startRecording,
+    stopRecording,
     browserSupportsSpeechRecognition,
   };
 }
