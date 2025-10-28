@@ -2,7 +2,6 @@
 import {
   Dispatch,
   SetStateAction,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -19,10 +18,11 @@ export type UseBrowserSTTOptions = {
 
 type UseBrowserSTTProps = {
   setText: Dispatch<SetStateAction<string>>;
+  text: string;
   options: UseBrowserSTTOptions;
 };
 
-export function useBrowserSTT({ setText, options }: UseBrowserSTTProps) {
+export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
   const { language, continuous = false } = options;
   const {
     listening,
@@ -38,52 +38,54 @@ export function useBrowserSTT({ setText, options }: UseBrowserSTTProps) {
 
   const lastInterimRef = useRef<string | null>(null);
   const lastFinalRef = useRef<string | null>(null);
+  // Base text at the start of the current recording session
+  const sessionBaseRef = useRef<string>("");
 
+  // During recording, show base + interim (overwrite, do not append repeatedly)
   useEffect(() => {
-    if (interimTranscript == null || interimTranscript === "") {
-      return;
-    }
+    if (!isListening) return;
+    if (interimTranscript == null || interimTranscript === "") return;
+    if (lastInterimRef.current === interimTranscript) return;
 
-    if (lastInterimRef.current === interimTranscript) {
-      return;
-    }
-
-    setText(interimTranscript);
+    // Overwrite textarea with base + interim
+    const base = sessionBaseRef.current;
+    const prefix = base ? " " : "";
+    setText(`${base}${prefix}${interimTranscript}`);
     lastInterimRef.current = interimTranscript;
-  }, [interimTranscript, setText]);
+  }, [interimTranscript, isListening, setText]);
 
+  // Commit stable words; also advance base so next interim builds on it
   useEffect(() => {
-    if (finalTranscript == null || finalTranscript === "") {
-      return;
-    }
+    if (finalTranscript == null || finalTranscript === "") return;
+    if (lastFinalRef.current === finalTranscript) return;
 
-    if (lastFinalRef.current === finalTranscript) {
-      return;
-    }
+    const base = sessionBaseRef.current;
+    const prefix = base ? " " : "";
+    const committed = `${base}${prefix}${finalTranscript}`;
+    setText(committed);
 
-    setText(finalTranscript);
+    sessionBaseRef.current = committed; // advance base for subsequent interim/final
     lastFinalRef.current = finalTranscript;
-  }, [finalTranscript, setText, resetTranscript]);
+  }, [finalTranscript, setText]);
 
-  const start = useCallback(() => {
+  // start and stop don't need to be memoized because they're called onClick
+  const start = () => {
     if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
     if (isListening) return;
+    sessionBaseRef.current = text;
+    lastInterimRef.current = null;
+    lastFinalRef.current = null;
+    resetTranscript();
     SpeechRecognition.startListening({
       language,
       continuous,
     });
-  }, [
-    browserSupportsSpeechRecognition,
-    isMicrophoneAvailable,
-    isListening,
-    language,
-    continuous,
-  ]);
+  };
 
-  const stop = useCallback(() => {
+  const stop = () => {
     if (!isListening) return;
     SpeechRecognition.stopListening();
-  }, [isListening]);
+  };
 
   return {
     isListening,

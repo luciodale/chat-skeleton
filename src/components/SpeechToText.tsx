@@ -8,6 +8,7 @@ type SpeechToTextProps = {
   language?: string;
   continuous?: boolean;
   setText: Dispatch<SetStateAction<string>>;
+  text: string;
   disabled: boolean;
 };
 
@@ -15,11 +16,13 @@ export function SpeechToText({
   language,
   continuous,
   setText,
+  text,
   disabled,
 }: SpeechToTextProps) {
   const { isListening, start, stop, browserSupportsSpeechRecognition } =
     useBrowserSTT({
       setText,
+      text,
       options: {
         language,
         continuous,

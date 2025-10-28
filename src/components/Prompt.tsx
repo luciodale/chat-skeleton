@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import type { Dispatch, SetStateAction } from "react";
 import { AttachIcon } from "../icons/AttachIcon";
 import { SendIcon } from "../icons/SendIcon";
 import { SpeechToText } from "./SpeechToText";
@@ -58,6 +57,7 @@ export function Prompt() {
                 <SpeechToText
                   language="en-US"
                   setText={setTextFromSTT}
+                  text={text}
                   disabled={isSubmitting}
                 />
 
