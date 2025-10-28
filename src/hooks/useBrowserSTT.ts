@@ -16,7 +16,7 @@ type UseBrowserSTTProps = {
 };
 
 export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
-  const { language, continuous = false } = options;
+  const { continuous = false } = options;
   const {
     listening,
     finalTranscript,
