@@ -70,17 +70,19 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
   }, [finalTranscript, setText]);
 
   // start and stop don't need to be memoized because they're called onClick
-  const startRecording = useCallback(() => {
+  const startRecording = useCallback(async () => {
     if (!browserSupportsSpeechRecognition || !isMicrophoneAvailable) return;
     if (isListening) return;
     sessionBaseRef.current = text;
     lastInterimRef.current = null;
     lastFinalRef.current = null;
     resetTranscript();
-    SpeechRecognition.startListening({
+    console.log("startRecording", language, continuous);
+    await SpeechRecognition.startListening({
       language,
       continuous,
     });
+    console.log("startListening promise resolved");
   }, [
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
@@ -88,11 +90,14 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
     text,
     continuous,
     resetTranscript,
+    language,
   ]);
 
-  const stopRecording = useCallback(() => {
+  const stopRecording = useCallback(async () => {
     if (!isListening) return;
-    SpeechRecognition.stopListening();
+    console.log("stopRecording");
+    await SpeechRecognition.stopListening();
+    console.log("stopRecording promise resolved");
   }, [isListening]);
 
   return {

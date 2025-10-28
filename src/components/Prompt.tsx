@@ -5,7 +5,6 @@ import { AttachIcon } from "../icons/AttachIcon";
 import { SendIcon } from "../icons/SendIcon";
 import { SpeechToText } from "./SpeechToText";
 import { useSetTextWithScrolling } from "../hooks/useSetTextWithScrolling";
-import { Test } from "./Test";
 
 export function Prompt() {
   const [text, setText] = useState<string>("");
@@ -55,7 +54,6 @@ export function Prompt() {
                   <AttachIcon />
                 </button>
                 <div className="mx-auto flex" />
-                <Test />
                 <SpeechToText
                   language="en-US"
                   setText={setTextFromSTT}
