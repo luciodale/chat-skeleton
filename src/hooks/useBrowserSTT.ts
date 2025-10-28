@@ -21,8 +21,10 @@ type UseBrowserSTTProps = {
   options: UseBrowserSTTOptions;
 };
 
+const STOP_RECORDING_TIMEOUT = 1500;
+
 export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
-  const { language, continuous = false } = options;
+  const { language } = options;
   const {
     listening: isListening,
     finalTranscript,
@@ -34,15 +36,12 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   const lastInterimRef = useRef<string | null>(null);
   const lastFinalRef = useRef<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   // Base text at the start of the current recording session
   const sessionBaseRef = useRef<string>("");
 
   // During recording, show base + interim (overwrite, do not append repeatedly)
   useEffect(() => {
-    console.log("interimTranscript", interimTranscript);
-    console.log("isListening", isListening);
-    console.log("lastInterimRef", lastInterimRef.current);
-
     if (!isListening) return;
     if (interimTranscript == null || interimTranscript === "") return;
     if (lastInterimRef.current === interimTranscript) return;
@@ -52,7 +51,7 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
     const prefix = base ? " " : "";
     setText(`${base}${prefix}${interimTranscript}`);
     lastInterimRef.current = interimTranscript;
-  }, [interimTranscript, isListening, setText]);
+  }, [interimTranscript, isListening, setText, resetTranscript]);
 
   // Commit stable words; also advance base so next interim builds on it
   useEffect(() => {
@@ -67,7 +66,21 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
     sessionBaseRef.current = committed; // advance base for subsequent interim/final
     lastFinalRef.current = finalTranscript;
-  }, [finalTranscript, setText]);
+    console.log("final script, timeoutRef.current", timeoutRef.current);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(async () => {
+      await SpeechRecognition.stopListening();
+    }, STOP_RECORDING_TIMEOUT);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [finalTranscript, setText, resetTranscript]);
 
   // start and stop don't need to be memoized because they're called onClick
   const startRecording = useCallback(async () => {
@@ -77,27 +90,23 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
     lastInterimRef.current = null;
     lastFinalRef.current = null;
     resetTranscript();
-    console.log("startRecording", language, continuous);
+
     await SpeechRecognition.startListening({
       language,
-      continuous,
+      continuous: true,
     });
-    console.log("startListening promise resolved");
   }, [
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
     isListening,
     text,
-    continuous,
     resetTranscript,
     language,
   ]);
 
   const stopRecording = useCallback(async () => {
     if (!isListening) return;
-    console.log("stopRecording");
     await SpeechRecognition.stopListening();
-    console.log("stopRecording promise resolved");
   }, [isListening]);
 
   return {

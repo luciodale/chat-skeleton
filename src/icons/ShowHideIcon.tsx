@@ -7,9 +7,9 @@ export function ShowHideIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="1"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path d="M17 12H3"></path>
       <path d="m11 18 6-6-6-6"></path>

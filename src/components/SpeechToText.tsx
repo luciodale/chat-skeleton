@@ -6,7 +6,6 @@ import cn from "../utils/cn";
 
 type SpeechToTextProps = {
   language?: string;
-  continuous?: boolean;
   setText: Dispatch<SetStateAction<string>>;
   text: string;
   disabled: boolean;
@@ -14,7 +13,6 @@ type SpeechToTextProps = {
 
 export function SpeechToText({
   language,
-  continuous,
   setText,
   text,
   disabled,
@@ -29,7 +27,6 @@ export function SpeechToText({
     text,
     options: {
       language,
-      continuous,
     },
   });
 

@@ -59,7 +59,6 @@ export function Prompt() {
                   setText={setTextFromSTT}
                   text={text}
                   disabled={isSubmitting}
-                  continuous={false}
                 />
 
                 <button type="submit" disabled={isSubmitting}>
