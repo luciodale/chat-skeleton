@@ -1,12 +1,5 @@
 // hooks/useBrowserSTT.ts
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -34,7 +27,6 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
   } = useSpeechRecognition();
 
   const isListening = useMemo(() => listening, [listening]);
-  const [isLoading] = useState(false);
 
   const lastInterimRef = useRef<string | null>(null);
   const lastFinalRef = useRef<string | null>(null);
@@ -43,6 +35,10 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   // During recording, show base + interim (overwrite, do not append repeatedly)
   useEffect(() => {
+    console.log("interimTranscript", interimTranscript);
+    console.log("isListening", isListening);
+    console.log("lastInterimRef", lastInterimRef.current);
+
     if (!isListening) return;
     if (interimTranscript == null || interimTranscript === "") return;
     if (lastInterimRef.current === interimTranscript) return;
@@ -56,6 +52,7 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   // Commit stable words; also advance base so next interim builds on it
   useEffect(() => {
+    console.log("finalTranscript", finalTranscript);
     if (finalTranscript == null || finalTranscript === "") return;
     if (lastFinalRef.current === finalTranscript) return;
 
@@ -77,7 +74,7 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
     lastFinalRef.current = null;
     resetTranscript();
     SpeechRecognition.startListening({
-      language,
+      // language,
       continuous,
     });
   };
@@ -89,7 +86,6 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   return {
     isListening,
-    isLoading,
     start,
     stop,
     browserSupportsSpeechRecognition,
