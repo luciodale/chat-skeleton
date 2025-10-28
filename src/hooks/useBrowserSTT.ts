@@ -11,9 +11,8 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { isSafari } from "../utils/isSafari";
 
-export type UseBrowserSTTOptions = {
+type UseBrowserSTTOptions = {
   language?: string;
-  continuous?: boolean;
 };
 
 type UseBrowserSTTProps = {
