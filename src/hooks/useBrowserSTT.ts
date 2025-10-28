@@ -9,6 +9,7 @@ import {
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { isSafari } from "../utils/isSafari";
 
 export type UseBrowserSTTOptions = {
   language?: string;
@@ -21,7 +22,7 @@ type UseBrowserSTTProps = {
   options: UseBrowserSTTOptions;
 };
 
-const STOP_RECORDING_TIMEOUT = 1500;
+const STOP_RECORDING_TIMEOUT = isSafari() ? 0 : 1500;
 
 export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
   const { language } = options;
