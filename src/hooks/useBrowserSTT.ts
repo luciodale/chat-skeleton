@@ -36,7 +36,7 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   const lastInterimRef = useRef<string | null>(null);
   const lastFinalRef = useRef<string | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Base text at the start of the current recording session
   const sessionBaseRef = useRef<string>("");
 
