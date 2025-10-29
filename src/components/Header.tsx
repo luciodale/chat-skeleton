@@ -4,7 +4,6 @@ import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
 import { SidebarIcon } from "../icons/SidebarIcon";
 import { Button } from "./Button";
-import { DarkModeToggle } from "./DarkModeToggle";
 
 type HeaderProps = {
   isLeftSidebarCollapsed: boolean;
@@ -34,8 +33,7 @@ export function Header({
         <GoogleIcon />
         gemini-2.5-flash
       </Button>
-      <DarkModeToggle />
-      v0.0.5
+      v0.0.6
     </div>
   );
 }

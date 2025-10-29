@@ -49,7 +49,7 @@ export function RightSidebarToggle({
             <div className="flex h-6 w-6 flex-col items-center">
               {/* Top bar */}
               <div
-                className="h-3 w-1 rounded-full bg-black dark:bg-white"
+                className="h-3 w-1 rounded-full bg-text-primary"
                 style={{
                   ...transition,
                   transform: `translateY(0.15rem) rotate(-15deg) translateZ(0px)`,
@@ -57,7 +57,7 @@ export function RightSidebarToggle({
               />
               {/* Bottom bar */}
               <div
-                className="h-3 w-1 rounded-full bg-black dark:bg-white"
+                className="h-3 w-1 rounded-full bg-text-primary"
                 style={{
                   ...transition,
                   transform: `translateY(-0.15rem) rotate(15deg) translateZ(0px)`,

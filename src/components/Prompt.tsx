@@ -52,7 +52,7 @@ export function Prompt() {
                 ref={textareaRef}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="md:py-3.5 m-0 w-full resize-none py-[13px] placeholder-black/50 bg-transparent dark:placeholder-white/50 [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] max-h-[45vh] md:max-h-[55vh] px-5 focus:outline-none focus:ring-0 focus:ring-opacity-0 focus:ring-offset-0 transition-[max-height] duration-200 disabled:cursor-not-allowed"
+                className="md:py-3.5 m-0 w-full resize-none py-[13px] placeholder-text-secondary-alt bg-transparent [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)] max-h-[45vh] md:max-h-[55vh] px-5 focus:outline-none focus:ring-0 focus:ring-opacity-0 focus:ring-offset-0 transition-[max-height] duration-200 disabled:cursor-not-allowed"
                 name=""
                 id=""
               ></textarea>
@@ -72,8 +72,8 @@ export function Prompt() {
                   disabled={isSubmitting || isStreaming}
                   className={`p-2 rounded-full transition-all duration-200 ${
                     isSubmitting || isStreaming 
-                      ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-700' 
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-95'
+                      ? 'opacity-50 cursor-not-allowed bg-surface-secondary' 
+                      : 'hover:bg-surface-hover active:scale-95'
                   }`}
                 >
                   <SendIcon />

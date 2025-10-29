@@ -20,11 +20,13 @@ export function Conversation() {
     <div className="relative flex-1 overflow-hidden overflow-y-auto">
       <div className="relative h-full">
         <div className="scrollbar-gutter-stable w-full h-full overflow-y-auto">
-          <div className="flex flex-col pb-9 dark:bg-transparent">
+          <div className="flex flex-col pb-9 bg-transparent">
             {isEmpty ? (
               <div className="m-auto justify-center p-4 py-2 md:gap-6">
-                <div className="mx-auto mt-20 text-center text-lg opacity-80 md:max-w-188 xl:max-w-220">
-                  {typed}
+                <div className="mx-auto mt-20 text-center md:max-w-188 xl:max-w-220">
+                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    {typed}
+                  </h1>
                 </div>
               </div>
             ) : (
@@ -57,7 +59,7 @@ function MessageItem({ message, isStreaming }: MessageItemProps) {
   const isUser = message.role === "user";
 
   return (
-    <div className="text-token-text-primary w-full border-0 bg-transparent dark:border-0 dark:bg-transparent">
+    <div className="text-token-text-primary w-full border-0 bg-transparent">
       <div className="m-auto justify-center p-4 py-2 md:gap-6">
         <div
           id={message.id}
@@ -75,7 +77,7 @@ function MessageItem({ message, isStreaming }: MessageItemProps) {
                   className="text-message flex min-h-[20px] flex-col items-start gap-3 overflow-visible [.text-message+&]:mt-5"
                   dir="auto"
                 >
-                  <div className="markdown prose message-content text-text-secondary light w-full wrap-break-word dark:text-gray-20 text-left">
+                  <div className="markdown prose message-content text-text-secondary light w-full wrap-break-word text-left">
                     <p className="mb-2 whitespace-pre-wrap text-left">{message.content}</p>
                   </div>
                 </div>

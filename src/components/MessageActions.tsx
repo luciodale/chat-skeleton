@@ -15,7 +15,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
       <div className="mt-1 flex justify-start gap-3 empty:hidden lg:flex text-xs">
         <div className="group visible flex justify-center gap-0.5 self-end focus-within:outline-none lg:justify-start">
           <button
-            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-gray-100 dark:bg-gray-700 md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-surface-secondary md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
             type="button"
             title="Read aloud"
           >
@@ -48,7 +48,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
             }}
           />
           <button
-            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-gray-100 dark:bg-gray-700 md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none ml-0 flex items-center gap-1.5 text-xs"
+            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-surface-secondary md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none ml-0 flex items-center gap-1.5 text-xs"
             type="button"
             title="Copy to clipboard"
           >
@@ -72,7 +72,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </button>
           <button
             id={`edit-${messageId}`}
-            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-gray-100 dark:bg-gray-700 md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-surface-secondary md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
             type="button"
             title="Edit"
           >
@@ -96,7 +96,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
             </svg>
           </button>
           <button
-            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-gray-100 dark:bg-gray-700 md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+            className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-surface-secondary md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
             type="button"
             aria-label="Fork"
           >
@@ -128,7 +128,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
     <div className="mt-1 flex justify-start gap-3 empty:hidden lg:flex text-xs">
       <div className="group visible flex justify-center gap-0.5 self-end focus-within:outline-none lg:justify-start">
         <button
-          className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-gray-100 dark:bg-gray-700 md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+          className="hover-button rounded-full p-2 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover bg-surface-secondary md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
           type="button"
           title="Read aloud"
         >
@@ -149,7 +149,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </svg>
         </button>
         <button
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none ml-0 flex items-center gap-1.5 text-xs"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none ml-0 flex items-center gap-1.5 text-xs"
           type="button"
           title="Copy to clipboard"
         >
@@ -173,7 +173,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
         </button>
         <button
           id={`edit-${messageId}`}
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none active"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none active"
           type="button"
           title="Edit"
         >
@@ -197,7 +197,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </svg>
         </button>
         <button
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
           type="button"
           aria-label="Fork"
         >
@@ -221,7 +221,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </svg>
         </button>
         <button
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
           type="button"
           title="Love this"
           aria-pressed="false"
@@ -244,7 +244,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </svg>
         </button>
         <button
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none"
           type="button"
           title="Needs improvement"
           aria-pressed="false"
@@ -267,7 +267,7 @@ export function MessageActions({ messageId, isUser = false, isStreaming = false 
           </svg>
         </button>
         <button
-          className="hover-button rounded-full p-2 bg-gray-100 dark:bg-gray-700 text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:outline-none active"
+          className="hover-button rounded-full p-2 bg-surface-secondary text-text-secondary-alt transition-colors duration-200 hover:text-text-primary hover:bg-surface-hover md:group-hover:visible md:group-focus-within:visible md:group-[.final-completion]:visible focus-visible:ring-2 focus-visible:ring-text-primary focus-visible:outline-none active"
           type="button"
           title="Regenerate"
         >
