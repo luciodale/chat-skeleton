@@ -33,7 +33,7 @@ export function Header({
         <GoogleIcon />
         gemini-2.5-flash
       </Button>
-      v0.0.7
+      v0.0.8
     </div>
   );
 }
