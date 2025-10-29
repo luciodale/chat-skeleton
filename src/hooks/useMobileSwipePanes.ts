@@ -16,8 +16,8 @@ const EDGE_SWIPE_THRESHOLD_PX = 40; // px from the screen edge to start opening 
 const ACTIVATION_DELTA_X_PX = 20; // minimal horizontal movement to lock onto a gesture
 const LEFT_PANE_WIDTH_PX = 320;
 const RIGHT_PANE_WIDTH_PX = 352;
-const OPENING_SNAP_FRACTION = 0.1; // if pane is closed, open when >= 33% of the way
-const CLOSING_SNAP_FRACTION = 0.1; // if pane is open, close when >= 33% of the way
+const OPENING_SNAP_FRACTION = 0.1; // if pane is closed, open when >= 10% of the way
+const CLOSING_SNAP_FRACTION = 0.1; // if pane is open, close when >= 10% of the way
 
 export function useMobileSwipePanes(cbs: SwipeCallbacks) {
   const isSmallScreen = useMediaQuery("small");
