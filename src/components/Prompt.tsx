@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useCallback } from "react";
 import { useRef } from "react";
-import { AttachIcon } from "../icons/AttachIcon";
+
 import { SendIcon } from "../icons/SendIcon";
 import { SpeechToText } from "./SpeechToText";
 import { useSetTextWithScrolling } from "../hooks/useSetTextWithScrolling";
+import { AttachFile } from "./AttachFile";
+import { FilePreviews } from "./FilePreviews";
 
 export function Prompt() {
   const [text, setText] = useState<string>("");
+  const [attachments, setAttachments] = useState<File[] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -41,6 +44,10 @@ export function Prompt() {
         <div className="relative flex h-full flex-1 items-stretch md:flex-col">
           <div className="flex w-full items-center">
             <div className="relative flex w-full flex-grow flex-col overflow-hidden rounded-t-3xl border pb-4 text-text-primary transition-all duration-200 sm:rounded-3xl sm:pb-0 shadow-md border-border-light bg-surface-chat">
+              <FilePreviews
+                attachments={attachments}
+                setAttachments={setAttachments}
+              />
               <textarea
                 ref={textareaRef}
                 value={text}
@@ -50,9 +57,8 @@ export function Prompt() {
                 id=""
               ></textarea>
               <div className="items-between justify-center flex gap-2 pb-2 px-4 flex-row">
-                <button>
-                  <AttachIcon />
-                </button>
+                <AttachFile setAttachments={setAttachments} />
+
                 <div className="mx-auto flex" />
                 <SpeechToText
                   language="en-US"

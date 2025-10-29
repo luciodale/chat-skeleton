@@ -35,7 +35,10 @@ export function SpeechToText({
       {browserSupportsSpeechRecognition ? (
         <button
           type="button"
-          className={cn(isListening && "animate-pulse")}
+          className={cn(
+            isListening && "animate-pulse",
+            "cursor-pointer hover:bg-surface-secondary rounded-full p-2"
+          )}
           onClick={isListening ? stopRecording : startRecording}
           disabled={disabled}
           aria-label="Use microphone"

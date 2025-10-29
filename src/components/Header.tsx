@@ -33,7 +33,7 @@ export function Header({
         gemini-2.5-flash
       </Button>
       <DarkModeToggle />
-      v0.0.3
+      v0.0.4
     </div>
   );
 }
