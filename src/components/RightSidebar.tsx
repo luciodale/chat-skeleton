@@ -1,16 +1,17 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
-import cn from "../utils/cn";
 import { CubeIcon } from "../icons/CubeIcon";
-import { RightSidebarItem } from "./RightSidebarItem";
 import { PromptIcon } from "../icons/PromptIcon";
 import { ShowHideIcon } from "../icons/ShowHideIcon";
+import cn from "../utils/cn";
 import { RightSidebarAgentBuilder } from "./RightSidebarAgentBuilder";
+import { RightSidebarItem } from "./RightSidebarItem";
 import { RightSidebarPrompts } from "./RightSidebarPrompts";
 
 type RightSidebarProps = {
   isRightSidebarCollapsed: boolean;
   setIsRightSidebarCollapsed: Dispatch<SetStateAction<boolean>>;
+  dragTranslateX?: number | null;
 };
 
 type CurrentItem = "agent-builder" | "prompts";
@@ -18,6 +19,7 @@ type CurrentItem = "agent-builder" | "prompts";
 export function RightSidebar({
   isRightSidebarCollapsed,
   setIsRightSidebarCollapsed,
+  dragTranslateX,
 }: RightSidebarProps) {
   const isSmallScreen = useMediaQuery("small");
 
@@ -38,10 +40,15 @@ export function RightSidebar({
   return (
     <nav
       style={{
-        ...(isRightSidebarCollapsed && {
-          transform: "translateX(100%)",
-          width: "0px",
-        }),
+        ...(dragTranslateX != null
+          ? {
+              transform: `translate3d(${dragTranslateX}px, 0, 0)`,
+              transition: "none",
+              willChange: "transform",
+            }
+          : isRightSidebarCollapsed
+          ? { transform: "translateX(100%)", width: "0px" }
+          : {}),
       }}
       className={cn(
         "z-20 hide-scrollbar border-l border-border-light bg-background py-1 transition-all duration-200 w-[340px] sm:w-[352px] opacity-100",

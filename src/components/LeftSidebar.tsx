@@ -1,21 +1,23 @@
 import { Dispatch, SetStateAction } from "react";
+import { useMediaQuery } from "../hooks/useMediaQuery";
+import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
 import { SidebarIcon } from "../icons/SidebarIcon";
-import { Button } from "./Button";
-import cn from "../utils/cn";
-import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ThreeDotsIcon } from "../icons/ThreeDotsIcon";
+import cn from "../utils/cn";
+import { Button } from "./Button";
 import { LeftSidebarItem } from "./LeftSidebarItem";
-import { GoogleIcon } from "../icons/GoogleIcon";
 
 type LeftSidebarProps = {
   isLeftSidebarCollapsed: boolean;
   setIsLeftSidebarCollapsed: Dispatch<SetStateAction<boolean>>;
+  dragTranslateX?: number | null;
 };
 
 export function LeftSidebar({
   isLeftSidebarCollapsed,
   setIsLeftSidebarCollapsed,
+  dragTranslateX,
 }: LeftSidebarProps) {
   const isSmallScreen = useMediaQuery("small");
 
@@ -33,13 +35,18 @@ export function LeftSidebar({
 
       <div
         style={{
-          ...(isLeftSidebarCollapsed && {
-            transform: "translateX(-100%)",
-            width: "0px",
-          }),
+          ...(dragTranslateX != null
+            ? {
+                transform: `translate3d(${dragTranslateX}px, 0, 0)`,
+                transition: "none",
+                willChange: "transform",
+              }
+            : isLeftSidebarCollapsed
+            ? { transform: "translateX(-100%)", width: "0px" }
+            : {}),
         }}
         className={cn(
-          "top-0 bottom-0 z-50 active w-[320px] md:w-[260px] flex-shrink-0 transform overflow-x-hidden bg-surface-primary-alt transition-all duration-200 ease-in-out",
+          "top-0 bottom-0 z-50 active w-[320px] md:w-[260px] shrink-0 transform overflow-x-hidden bg-surface-primary-alt transition-all duration-200 ease-in-out",
           isSmallScreen && "fixed left-0 top-0 bottom-0"
         )}
       >
