@@ -12,151 +12,228 @@ type SwipeCallbacks = {
   onRightDrag?: (translateX: number | null) => void;
 };
 
-// Minimal swipe handling focused on horizontal gestures on small screens.
-// Doesn't prevent default to preserve native text selection and scrolling.
+const EDGE_SWIPE_THRESHOLD_PX = 40; // px from the screen edge to start opening when closed
+const ACTIVATION_DELTA_X_PX = 20; // minimal horizontal movement to lock onto a gesture
+const LEFT_PANE_WIDTH_PX = 320;
+const RIGHT_PANE_WIDTH_PX = 352;
+const OPENING_SNAP_FRACTION = 0.1; // if pane is closed, open when >= 33% of the way
+const CLOSING_SNAP_FRACTION = 0.1; // if pane is open, close when >= 33% of the way
+
 export function useMobileSwipePanes(cbs: SwipeCallbacks) {
   const isSmallScreen = useMediaQuery("small");
 
   const draggingRef = useRef<
     | null
     | {
-        startX: number;
-        startY: number;
-        activeSide: "left-closing" | "right-closing" | "left-opening" | "right-opening" | null;
+        touchStartX: number;
+        touchStartY: number;
+        activeGesture: "left-closing" | "right-closing" | "left-opening" | "right-opening" | null;
+        activeTouchId: number | null;
       }
   >(null);
+  const lastLeftTranslateRef = useRef<number | null>(null);
+  const lastRightTranslateRef = useRef<number | null>(null);
+
+  // Destructure for stable deps; these are memoized in the parent
+  const {
+    getIsLeftOpen,
+    getIsRightOpen,
+    openLeft,
+    closeLeft,
+    openRight,
+    closeRight,
+    onLeftDrag,
+    onRightDrag,
+  } = cbs;
 
   useEffect(() => {
     if (!isSmallScreen) return;
 
-    const edgeThresholdPx = 40; // start from edges when opening
-    const activationDx = 12; // minimal horizontal movement to consider swipe
-    const horizontalDominance = 1.5; // horizontal must dominate vertical
-    const LEFT_PANE_WIDTH = 320; // px
-    const RIGHT_PANE_WIDTH = 352; // px
-
+    // Helper to detect inputs/contenteditable
     const isEditableTarget = (el: EventTarget | null) => {
       if (!(el instanceof Element)) return false;
       const editable = el.closest("input, textarea, [contenteditable='true']");
       return !!editable;
     };
 
-    function onPointerDown(e: PointerEvent) {
-      if (e.pointerType !== "touch") return;
+    function onTouchStart(e: TouchEvent) {
       if (isEditableTarget(e.target)) return;
+      if (e.changedTouches.length === 0) return;
 
+      const firstTouch = e.changedTouches[0];
       draggingRef.current = {
-        startX: e.clientX,
-        startY: e.clientY,
-        activeSide: null,
+        touchStartX: firstTouch.clientX,
+        touchStartY: firstTouch.clientY,
+        activeGesture: null,
+        activeTouchId: firstTouch.identifier,
       };
+      lastLeftTranslateRef.current = null;
+      lastRightTranslateRef.current = null;
     }
 
-    function onPointerMove(e: PointerEvent) {
-      if (e.pointerType !== "touch") return;
+    function onTouchMove(e: TouchEvent) {
       if (!draggingRef.current) return;
 
-      const dx = e.clientX - draggingRef.current.startX;
-      const dy = e.clientY - draggingRef.current.startY;
+      // Find the tracked touch
+      const trackedId = draggingRef.current.activeTouchId;
+      let changedTouch: Touch | null = null;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        const candidateTouch = e.changedTouches[i];
+        if (trackedId == null || candidateTouch.identifier === trackedId) {
+          changedTouch = candidateTouch;
+          break;
+        }
+      }
+      if (!changedTouch) return;
 
-      // Determine intent
-      if (draggingRef.current.activeSide == null) {
-        if (Math.abs(dx) < activationDx) return;
-        if (Math.abs(dx) < Math.abs(dy) * horizontalDominance) return;
+      const deltaX = changedTouch.clientX - draggingRef.current.touchStartX;
 
-        const leftOpen = cbs.getIsLeftOpen();
-        const rightOpen = cbs.getIsRightOpen();
+      // If not yet locked on a gesture, decide intent
+      if (draggingRef.current.activeGesture == null) {
+        if (Math.abs(deltaX) < ACTIVATION_DELTA_X_PX) return;
+
+        const leftOpen = getIsLeftOpen();
+        const rightOpen = getIsRightOpen();
 
         if (leftOpen) {
-          if (dx < 0) {
-            draggingRef.current.activeSide = "left-closing";
+          if (deltaX < 0) {
+            draggingRef.current.activeGesture = "left-closing";
           } else {
             // opposite direction ignored when pane is open
             draggingRef.current = null;
-            cbs.onLeftDrag?.(null);
-            cbs.onRightDrag?.(null);
+            onLeftDrag?.(null);
+            onRightDrag?.(null);
             return;
           }
         } else if (rightOpen) {
-          if (dx > 0) {
-            draggingRef.current.activeSide = "right-closing";
+          if (deltaX > 0) {
+            draggingRef.current.activeGesture = "right-closing";
           } else {
             draggingRef.current = null;
-            cbs.onLeftDrag?.(null);
-            cbs.onRightDrag?.(null);
+            onLeftDrag?.(null);
+            onRightDrag?.(null);
             return;
           }
         } else {
-          // none open → edge swipe only
-          const vw = window.innerWidth;
-          if (dx > 0 && draggingRef.current.startX <= edgeThresholdPx) {
-            draggingRef.current.activeSide = "left-opening";
-          } else if (dx < 0 && draggingRef.current.startX >= vw - edgeThresholdPx) {
-            draggingRef.current.activeSide = "right-opening";
+          // none open → require an edge swipe to open
+          const viewportWidth = window.innerWidth;
+          if (deltaX > 0 && draggingRef.current.touchStartX <= EDGE_SWIPE_THRESHOLD_PX) {
+            draggingRef.current.activeGesture = "left-opening";
+          } else if (deltaX < 0 && draggingRef.current.touchStartX >= viewportWidth - EDGE_SWIPE_THRESHOLD_PX) {
+            draggingRef.current.activeGesture = "right-opening";
           } else {
-            // Not from edge → ignore
+            // Not from edge → ignore this interaction
             draggingRef.current = null;
             return;
           }
         }
       }
 
-      // Update drag visuals (translate relative to fully open position)
-      if (draggingRef.current?.activeSide === "left-closing") {
-        const translate = Math.min(0, Math.max(-LEFT_PANE_WIDTH, dx)); // 0..-width
-        cbs.onLeftDrag?.(translate);
-      } else if (draggingRef.current?.activeSide === "right-closing") {
-        const translate = Math.max(0, Math.min(RIGHT_PANE_WIDTH, dx)); // 0..width
-        cbs.onRightDrag?.(translate);
-      } else if (draggingRef.current?.activeSide === "left-opening") {
+      // If a pane gesture is active, prevent the browser from scrolling
+      if (draggingRef.current.activeGesture != null) {
+        e.preventDefault();
+      }
+
+      // Apply live transform while dragging, clamped to pane widths
+      if (draggingRef.current?.activeGesture === "left-closing") {
+        const translateX = Math.min(0, Math.max(-LEFT_PANE_WIDTH_PX, deltaX)); // 0..-width
+        onLeftDrag?.(translateX);
+        lastLeftTranslateRef.current = translateX;
+
+      } else if (draggingRef.current?.activeGesture === "right-closing") {
+        const translateX = Math.max(0, Math.min(RIGHT_PANE_WIDTH_PX, deltaX)); // 0..width
+        onRightDrag?.(translateX);
+        lastRightTranslateRef.current = translateX;
+
+      } else if (draggingRef.current?.activeGesture === "left-opening") {
         // from offscreen (-width) toward 0
-        const translate = Math.min(0, Math.max(-LEFT_PANE_WIDTH, -LEFT_PANE_WIDTH + dx));
-        cbs.onLeftDrag?.(translate);
-      } else if (draggingRef.current?.activeSide === "right-opening") {
-        const translate = Math.max(0, Math.min(RIGHT_PANE_WIDTH, RIGHT_PANE_WIDTH + dx));
-        cbs.onRightDrag?.(translate);
+        const translateX = Math.min(0, Math.max(-LEFT_PANE_WIDTH_PX, -LEFT_PANE_WIDTH_PX + deltaX));
+        onLeftDrag?.(translateX);
+        lastLeftTranslateRef.current = translateX;
+
+      } else if (draggingRef.current?.activeGesture === "right-opening") {
+        const translateX = Math.max(0, Math.min(RIGHT_PANE_WIDTH_PX, RIGHT_PANE_WIDTH_PX + deltaX));
+        onRightDrag?.(translateX);
+        lastRightTranslateRef.current = translateX;
+
       }
     }
 
-    function onPointerUp(e: PointerEvent) {
-      if (e.pointerType !== "touch") return;
+    function onTouchEnd(e: TouchEvent) {
       if (!draggingRef.current) return;
 
-      const active = draggingRef.current.activeSide;
+      const trackedId = draggingRef.current.activeTouchId;
+      let endedTracked = false;
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === trackedId) {
+          endedTracked = true;
+          break;
+        }
+      }
+      if (!endedTracked) return;
+
+      const active = draggingRef.current.activeGesture;
       draggingRef.current = null;
 
-      // Snap behavior: open/close at gesture end.
-      if (active === "left-closing") {
-        cbs.onLeftDrag?.(null);
-        cbs.closeLeft();
-      } else if (active === "right-closing") {
-        cbs.onRightDrag?.(null);
-        cbs.closeRight();
-      } else if (active === "left-opening") {
-        cbs.onLeftDrag?.(null);
-        cbs.openLeft();
+      // Decide final state based on last live translate with distinct thresholds:
+      // - Opening gestures (pane was closed): open if >= OPENING_SNAP_FRACTION of the way
+      // - Closing gestures (pane was open): close if >= CLOSING_SNAP_FRACTION of the way
+      if (active === "left-opening") {
+        const lastTranslateX = lastLeftTranslateRef.current ?? -LEFT_PANE_WIDTH_PX; // -width..0
+        const openingBoundaryTranslateX = -LEFT_PANE_WIDTH_PX * (1 - OPENING_SNAP_FRACTION);
+        if (lastTranslateX >= openingBoundaryTranslateX) openLeft(); else closeLeft();
+        onLeftDrag?.(null);
+      } else if (active === "left-closing") {
+        const lastTranslateX = lastLeftTranslateRef.current ?? 0; // 0..-width
+        const closingBoundaryTranslateX = -LEFT_PANE_WIDTH_PX * CLOSING_SNAP_FRACTION; // negative value
+        if (lastTranslateX <= closingBoundaryTranslateX) closeLeft(); else openLeft();
+        onLeftDrag?.(null);
       } else if (active === "right-opening") {
-        cbs.onRightDrag?.(null);
-        cbs.openRight();
+        const lastTranslateX = lastRightTranslateRef.current ?? RIGHT_PANE_WIDTH_PX; // width..0
+        const openingBoundaryTranslateX = RIGHT_PANE_WIDTH_PX * (1 - OPENING_SNAP_FRACTION);
+        if (lastTranslateX <= openingBoundaryTranslateX) openRight(); else closeRight();
+        onRightDrag?.(null);
+      } else if (active === "right-closing") {
+        const lastTranslateX = lastRightTranslateRef.current ?? 0; // 0..width
+        const closingBoundaryTranslateX = RIGHT_PANE_WIDTH_PX * CLOSING_SNAP_FRACTION;
+        if (lastTranslateX >= closingBoundaryTranslateX) closeRight(); else openRight();
+        onRightDrag?.(null);
       } else {
-        cbs.onLeftDrag?.(null);
-        cbs.onRightDrag?.(null);
+        onLeftDrag?.(null);
+        onRightDrag?.(null);
       }
     }
 
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerup", onPointerUp, { passive: true });
-    window.addEventListener("pointercancel", onPointerUp, { passive: true });
+    function onTouchCancel() {
+      draggingRef.current = null;
+      onLeftDrag?.(null);
+      onRightDrag?.(null);
+    }
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    // touchmove must be non-passive to allow preventDefault() for scroll lock during gesture
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchCancel, { passive: true });
 
     return () => {
-      window.removeEventListener("pointerdown", onPointerDown as any);
-      window.removeEventListener("pointermove", onPointerMove as any);
-      window.removeEventListener("pointerup", onPointerUp as any);
-      window.removeEventListener("pointercancel", onPointerUp as any);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchCancel);
     };
-  }, [isSmallScreen, cbs]);
+  }, [
+    isSmallScreen,
+    getIsLeftOpen,
+    getIsRightOpen,
+    openLeft,
+    closeLeft,
+    openRight,
+    closeRight,
+    onLeftDrag,
+    onRightDrag,
+  ]);
 }
 
-export default useMobileSwipePanes;
+
 

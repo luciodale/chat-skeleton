@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Chat } from "./components/Chat";
 import { Header } from "./components/Header";
 import { LeftSidebar } from "./components/LeftSidebar";
@@ -22,19 +22,26 @@ export function Skeleton() {
   const [leftDragX, setLeftDragX] = useState<number | null>(null);
   const [rightDragX, setRightDragX] = useState<number | null>(null);
 
+  const getIsLeftOpen = useCallback(() => !isLeftSidebarCollapsed, [isLeftSidebarCollapsed]);
+  const getIsRightOpen = useCallback(() => !isRightSidebarCollapsed, [isRightSidebarCollapsed]);
+  const openLeft = useCallback(() => {
+    setIsLeftSidebarCollapsed(false);
+    setIsRightSidebarCollapsed(true);
+  }, [setIsLeftSidebarCollapsed, setIsRightSidebarCollapsed]);
+  const closeLeft = useCallback(() => setIsLeftSidebarCollapsed(true), [setIsLeftSidebarCollapsed]);
+  const openRight = useCallback(() => {
+    setIsRightSidebarCollapsed(false);
+    setIsLeftSidebarCollapsed(true);
+  }, [setIsRightSidebarCollapsed, setIsLeftSidebarCollapsed]);
+  const closeRight = useCallback(() => setIsRightSidebarCollapsed(true), [setIsRightSidebarCollapsed]);
+
   useMobileSwipePanes({
-    getIsLeftOpen: () => !isLeftSidebarCollapsed,
-    getIsRightOpen: () => !isRightSidebarCollapsed,
-    openLeft: () => {
-      setIsLeftSidebarCollapsed(false);
-      setIsRightSidebarCollapsed(true);
-    },
-    closeLeft: () => setIsLeftSidebarCollapsed(true),
-    openRight: () => {
-      setIsRightSidebarCollapsed(false);
-      setIsLeftSidebarCollapsed(true);
-    },
-    closeRight: () => setIsRightSidebarCollapsed(true),
+    getIsLeftOpen,
+    getIsRightOpen,
+    openLeft,
+    closeLeft,
+    openRight,
+    closeRight,
     onLeftDrag: setLeftDragX,
     onRightDrag: setRightDragX,
   });

@@ -35,11 +35,11 @@ export function LeftSidebar({
 
       <div
         style={{
+          willChange: "transform",
           ...(dragTranslateX != null
             ? {
                 transform: `translate3d(${dragTranslateX}px, 0, 0)`,
                 transition: "none",
-                willChange: "transform",
               }
             : isLeftSidebarCollapsed
             ? { transform: "translateX(-100%)", width: "0px" }
