@@ -1,2 +1,2 @@
 export const defaultLeftSidebarCollapsed = true;
-export const defaultRightSidebarCollapsed = false;
+export const defaultRightSidebarCollapsed = true;
