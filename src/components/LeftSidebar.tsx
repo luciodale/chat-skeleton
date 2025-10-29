@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { useChat } from "../context/ChatContext";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
@@ -20,6 +21,7 @@ export function LeftSidebar({
   dragTranslateX,
 }: LeftSidebarProps) {
   const isSmallScreen = useMediaQuery("small");
+  const { conversations, currentConversation, selectConversation, createNewConversation } = useChat();
 
   return (
     <>
@@ -56,29 +58,26 @@ export function LeftSidebar({
           >
             <SidebarIcon />
           </Button>
-          <Button onClick={() => {}}>
+          <Button onClick={() => createNewConversation()}>
             <NewChatIcon />
           </Button>
         </div>
         <div className="p-2 flex flex-col gap-2">
-          <LeftSidebarItem isActive={true}>
-            <div className="w-full flex items-center justify-between px-2 text-text-primary">
-              <div className="flex items-center gap-2">
-                <GoogleIcon />
-                Title of Chat
+          {conversations.map((c) => (
+            <LeftSidebarItem
+              key={c.id}
+              isActive={currentConversation?.id === c.id}
+              onClick={() => selectConversation(c.id)}
+            >
+              <div className="w-full flex items-center justify-between px-2 text-text-primary">
+                <div className="flex items-center gap-2">
+                  <GoogleIcon />
+                  {c.title || "New Chat"}
+                </div>
+                <ThreeDotsIcon />
               </div>
-              <ThreeDotsIcon />
-            </div>
-          </LeftSidebarItem>
-          <LeftSidebarItem isActive={false}>
-            <div className="w-full flex items-center justify-between px-2 text-text-primary">
-              <div className="flex items-center gap-2">
-                <GoogleIcon />
-                Another Chat
-              </div>
-              <ThreeDotsIcon />
-            </div>
-          </LeftSidebarItem>
+            </LeftSidebarItem>
+          ))}
         </div>
       </div>
     </>
