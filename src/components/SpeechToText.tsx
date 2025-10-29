@@ -36,8 +36,8 @@ export function SpeechToText({
         <button
           type="button"
           className={cn(
-            isListening && "animate-pulse",
-            "cursor-pointer hover:bg-surface-secondary rounded-full p-2"
+            isListening && "animate-pulse bg-red-100",
+            "cursor-pointer hover:bg-surface-hover rounded-full p-2"
           )}
           onClick={isListening ? stopRecording : startRecording}
           disabled={disabled}
@@ -45,7 +45,9 @@ export function SpeechToText({
           aria-pressed={isListening}
           title="Use microphone"
         >
-          <RecordIcon className={cn(isListening && "stroke-red-400")} />
+          <RecordIcon 
+            className={cn(isListening && "stroke-red-500")}
+          />
         </button>
       ) : (
         <button

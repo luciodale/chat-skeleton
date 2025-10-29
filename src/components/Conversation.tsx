@@ -70,7 +70,7 @@ function MessageItem({ message, isStreaming }: MessageItemProps) {
             {isUser ? <UserAvatar /> : <GeminiAvatar />}
           </div>
           <div className={`relative flex w-11/12 flex-col ${isUser ? "user-turn" : "agent-turn"}`}>
-            <h2 className="text-text-secondary text-left">{isUser ? "User" : "Gemini"}</h2>
+            <h2 className="text-text-primary text-left font-bold text-lg">{isUser ? "User" : "Gemini"}</h2>
             <div className="flex flex-col gap-1">
               <div className="flex max-w-full grow flex-col gap-0">
                 <div

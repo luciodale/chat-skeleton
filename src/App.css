@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Enable dark mode with prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
 
 /* Custom Variables */
 :root {
@@ -249,10 +254,12 @@ html, body {
   box-sizing: border-box;
 }
 
-.dark body,
-.dark html {
-  --tw-bg-opacity: 1;
-  background-color: rgba(23, 23, 23, var(--tw-bg-opacity));
+@media (prefers-color-scheme: dark) {
+  body,
+  html {
+    --tw-bg-opacity: 1;
+    background-color: rgba(23, 23, 23, var(--tw-bg-opacity));
+  }
 }
 
 #root {

@@ -17,7 +17,7 @@ export function AttachFile({ setAttachments }: AttachFileProps) {
     <>
       <button
         type="button"
-        className="cursor-pointer hover:bg-surface-secondary rounded-full p-2"
+        className="cursor-pointer hover:bg-surface-hover rounded-full p-2"
         onClick={() => {
           inputRef.current?.click();
         }}
