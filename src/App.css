@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
-/* Enable dark mode with prefers-color-scheme */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-  }
+/* Dark mode controlled via .dark class on <html> */
+.dark {
+  color-scheme: dark;
 }
 
 /* Custom Variables */
@@ -128,9 +126,8 @@ html {
   --chart-5: 27 87% 67%;
   --switch-unchecked: 0 0% 58%;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --brand-purple: #ab68ff;
+.dark {
+  --brand-purple: #ab68ff;
   --presentation: var(--gray-800);
   --text-primary: var(--gray-100);
   --text-secondary: var(--gray-300);
@@ -187,7 +184,6 @@ html {
   --chart-4: 280 65% 60%;
   --chart-5: 340 75% 55%;
   --switch-unchecked: 0 0% 40%;
-  }
 }
 
 @theme {
@@ -256,12 +252,10 @@ html, body {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  body,
-  html {
-    --tw-bg-opacity: 1;
-    background-color: rgba(23, 23, 23, var(--tw-bg-opacity));
-  }
+.dark,
+.dark body {
+  --tw-bg-opacity: 1;
+  background-color: rgba(23, 23, 23, var(--tw-bg-opacity));
 }
 
 #root {
