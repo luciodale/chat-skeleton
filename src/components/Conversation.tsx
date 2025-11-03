@@ -28,7 +28,18 @@ export function Conversation() {
             {isEmpty ? (
               <div className="m-auto justify-center p-4 py-2 md:gap-6">
                 <div className="mx-auto mt-20 text-center md:max-w-188 xl:max-w-220">
-                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  <img
+                    src="/favicon/favicon.svg"
+                    alt="Stylus logo"
+                    className="mx-auto mb-6 h-24 w-24 md:h-32 md:w-32"
+                  />
+                  <h1
+                    className="text-6xl md:text-7xl lg:text-8xl font-bold bg-clip-text text-transparent"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, #EC245A, #A91F8C)",
+                    }}
+                  >
                     {typed}
                   </h1>
                 </div>

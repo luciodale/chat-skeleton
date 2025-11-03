@@ -254,8 +254,7 @@ html, body {
 
 .dark,
 .dark body {
-  --tw-bg-opacity: 1;
-  background-color: rgba(23, 23, 23, var(--tw-bg-opacity));
+  background-color: var(--presentation);
 }
 
 #root {
