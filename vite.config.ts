@@ -20,7 +20,7 @@ export default defineConfig({
         display: "standalone",
         // acting as fallback before the meta tags in html are loaded
         background_color: "#000000",
-        theme_color: "#000000",
+        theme_color: "#ffffff",
         lang: "en",
         icons: [
           {
