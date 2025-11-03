@@ -55,7 +55,6 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
   // Commit stable words; also advance base so next interim builds on it
   useEffect(() => {
-    console.log("finalTranscript", finalTranscript);
     if (finalTranscript == null || finalTranscript === "") return;
     if (lastFinalRef.current === finalTranscript) return;
 
@@ -66,7 +65,6 @@ export function useBrowserSTT({ setText, text, options }: UseBrowserSTTProps) {
 
     sessionBaseRef.current = committed; // advance base for subsequent interim/final
     lastFinalRef.current = finalTranscript;
-    console.log("final script, timeoutRef.current", timeoutRef.current);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }

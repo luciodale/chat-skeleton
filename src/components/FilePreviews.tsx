@@ -16,7 +16,7 @@ function FilePreviewBase({ attachment, onDelete }: FilePreviewProps) {
   const [hasError, setHasError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { previewUrl, isImage, fileExtension } = useFilePreview(attachment);
-  console.log(isLoading);
+
   return (
     <div className="group relative inline-block text-sm text-black/70 dark:text-white/90">
       <div className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-600">

@@ -7,8 +7,12 @@ import { UserAvatar } from "./UserAvatar";
 
 export function Conversation() {
   const { currentConversation, isStreaming } = useChat();
-  const isEmpty = !currentConversation || currentConversation.messages.length === 0;
-  const typed = useTypewriter("welcome to the chat", { speedMs: 40 });
+  const isEmpty =
+    !currentConversation || currentConversation.messages.length === 0;
+  const typed = useTypewriter("welcome to the chat", {
+    speedMs: 40,
+    resetKey: currentConversation?.id,
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when messages change or streaming
@@ -33,7 +37,11 @@ export function Conversation() {
               <div className="justify-center p-4 py-2 md:gap-6">
                 <div className="flex flex-col gap-4 md:max-w-188 xl:max-w-220 mx-auto">
                   {currentConversation?.messages.map((message) => (
-                    <MessageItem key={message.id} message={message} isStreaming={isStreaming} />
+                    <MessageItem
+                      key={message.id}
+                      message={message}
+                      isStreaming={isStreaming}
+                    />
                   ))}
                   <div ref={messagesEndRef} />
                 </div>
@@ -69,8 +77,14 @@ function MessageItem({ message, isStreaming }: MessageItemProps) {
           <div className="relative flex shrink-0 flex-col items-center">
             {isUser ? <UserAvatar /> : <GeminiAvatar />}
           </div>
-          <div className={`relative flex w-11/12 flex-col ${isUser ? "user-turn" : "agent-turn"}`}>
-            <h2 className="text-text-primary text-left font-bold text-lg">{isUser ? "User" : "Gemini"}</h2>
+          <div
+            className={`relative flex w-11/12 flex-col ${
+              isUser ? "user-turn" : "agent-turn"
+            }`}
+          >
+            <h2 className="text-text-primary text-left font-bold text-lg">
+              {isUser ? "User" : "Gemini"}
+            </h2>
             <div className="flex flex-col gap-1">
               <div className="flex max-w-full grow flex-col gap-0">
                 <div
@@ -78,11 +92,17 @@ function MessageItem({ message, isStreaming }: MessageItemProps) {
                   dir="auto"
                 >
                   <div className="markdown prose message-content text-text-secondary light w-full wrap-break-word text-left">
-                    <p className="mb-2 whitespace-pre-wrap text-left">{message.content}</p>
+                    <p className="mb-2 whitespace-pre-wrap text-left">
+                      {message.content}
+                    </p>
                   </div>
                 </div>
               </div>
-              <MessageActions messageId={message.id} isUser={isUser} isStreaming={isStreaming} />
+              <MessageActions
+                messageId={message.id}
+                isUser={isUser}
+                isStreaming={isStreaming}
+              />
             </div>
           </div>
         </div>

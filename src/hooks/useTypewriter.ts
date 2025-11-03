@@ -3,16 +3,18 @@ import { useEffect, useMemo, useState } from "react";
 type Options = {
   speedMs?: number;
   cursor?: boolean;
+  resetKey?: unknown;
 };
 
 export function useTypewriter(text: string, options?: Options) {
   const speed = options?.speedMs ?? 40;
   const showCursor = options?.cursor ?? true;
+  const resetKey = options?.resetKey;
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
     setIdx(0);
-  }, [text]);
+  }, [text, resetKey]);
 
   useEffect(() => {
     if (idx >= text.length) return;
@@ -24,5 +26,3 @@ export function useTypewriter(text: string, options?: Options) {
   const cursor = showCursor ? (idx < text.length ? "▍" : "") : "";
   return rendered + cursor;
 }
-
-
