@@ -17,12 +17,17 @@ export default defineConfig({
         name: "Stylus AI",
         short_name: "Stylus",
         description: "Stylus AI",
+        display: "standalone",
+        // acting as fallback before the meta tags in html are loaded
+        background_color: "#000000",
+        theme_color: "#000000",
+        lang: "en",
         icons: [
           {
             src: "/favicon/web-app-manifest-192x192.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "maskable",
+            purpose: "any",
           },
           {
             src: "/favicon/web-app-manifest-512x512.png",
@@ -31,10 +36,6 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
-        // acting as fallback before the meta tags in html are loaded
-        theme_color: "#000000",
-        background_color: "#000000",
-        display: "standalone",
       },
     }),
   ],
