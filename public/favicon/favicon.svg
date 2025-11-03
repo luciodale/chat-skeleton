@@ -1,1 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1010)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(3.5,0,0,3.5,150,150)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200"><rect width="200" height="200" fill="url('#gradient')"></rect><defs><linearGradient id="gradient" gradientTransform="rotate(45 0.5 0.5)"><stop offset="0%" stop-color="#e2e86d"></stop><stop offset="100%" stop-color="#f9fae1"></stop></linearGradient><clipPath id="SvgjsClipPath1010"><rect width="1000" height="1000" x="0" y="0" rx="350" ry="350"></rect></clipPath></defs><g><g fill="#1b3855" transform="matrix(12.320855614973262,0,0,12.320855614973262,23.18399632869557,187.5440489621086)" stroke="#0e5278" stroke-width="0.2"><path d="M8.41-3.78L8.41-3.78Q8.41-4.53 7.88-4.95Q7.34-5.37 6.01-5.82Q4.67-6.27 3.82-6.69L3.82-6.69Q1.05-8.05 1.05-10.42L1.05-10.42Q1.05-11.60 1.74-12.50Q2.43-13.41 3.69-13.91Q4.95-14.41 6.52-14.41L6.52-14.41Q8.06-14.41 9.27-13.87Q10.49-13.32 11.16-12.31Q11.84-11.30 11.84-10L11.84-10L8.42-10Q8.42-10.87 7.89-11.35Q7.35-11.83 6.45-11.83L6.45-11.83Q5.53-11.83 5.00-11.42Q4.46-11.02 4.46-10.39L4.46-10.39Q4.46-9.84 5.05-9.40Q5.63-8.96 7.11-8.48Q8.58-8.01 9.53-7.46L9.53-7.46Q11.84-6.13 11.84-3.80L11.84-3.80Q11.84-1.93 10.43-0.87Q9.02 0.20 6.57 0.20L6.57 0.20Q4.84 0.20 3.44-0.42Q2.04-1.04 1.33-2.12Q0.63-3.20 0.63-4.61L0.63-4.61L4.06-4.61Q4.06-3.47 4.65-2.92Q5.24-2.38 6.57-2.38L6.57-2.38Q7.42-2.38 7.92-2.75Q8.41-3.12 8.41-3.78Z"></path></g></g></svg></svg></g></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000155110033955743144660000001984282010605627562_);}
+	.st1{fill:url(#SVGID_00000100356258086594755370000016188786967154917272_);}
+	.st2{fill:url(#SVGID_00000072978305258988717320000002109174450941944498_);}
+</style>
+<g>
+	<defs>
+		<path id="SVGID_1_" d="M350,0h300c193.3,0,350,156.7,350,350v300c0,193.3-156.7,350-350,350H350C156.7,1000,0,843.3,0,650V350
+			C0,156.7,156.7,0,350,0z"/>
+	</defs>
+	<clipPath id="SVGID_00000000926595858113197630000016500493224573171841_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g style="clip-path:url(#SVGID_00000000926595858113197630000016500493224573171841_);">
+		<rect x="-0.8" y="0.5" width="1000" height="1000"/>
+		<g>
+			<g>
+				
+					<linearGradient id="SVGID_00000132049627871979254850000007502382442801614984_" gradientUnits="userSpaceOnUse" x1="107.7167" y1="385.7065" x2="890.7186" y2="385.7065">
+					<stop  offset="0" style="stop-color:#EC245A"/>
+					<stop  offset="1" style="stop-color:#A91F8C"/>
+				</linearGradient>
+				<path style="fill:url(#SVGID_00000132049627871979254850000007502382442801614984_);" d="M890.7,376.2v121.4L604.5,278
+					c0,0-63.2-51.7-145.9-31c0,0-39.4,8.1-92.9,49.6l-103,77.6l307,249.8c0,0-68,58.1-155.9-9.5S107.7,376,107.7,376l215.6-186.3
+					c0,0,91-86.6,215.9-60.7c0,0,47.4,7.9,83.3,28c0,0,41.7,22.3,79,53.9S890.7,376.2,890.7,376.2z"/>
+				
+					<linearGradient id="SVGID_00000008112085950089614610000006269536838400605868_" gradientUnits="userSpaceOnUse" x1="-93.6122" y1="542.3068" x2="689.3896" y2="542.3068" gradientTransform="matrix(-1 0 0 -1 797.1063 1157.6816)">
+					<stop  offset="0" style="stop-color:#A91F8C"/>
+					<stop  offset="1" style="stop-color:#EC245A"/>
+				</linearGradient>
+				<path style="fill:url(#SVGID_00000008112085950089614610000006269536838400605868_);" d="M107.7,624.9V503.5l286.2,219.6
+					c0,0,63.2,51.7,145.9,31c0,0,39.4-8.1,92.9-49.6l103-77.6l-307-249.8c0,0,68-58.1,155.9,9.5s306.1,238.5,306.1,238.5
+					L675.1,811.3c0,0-91,86.6-215.9,60.7c0,0-47.4-7.9-83.3-28c0,0-41.7-22.3-79-53.9C259.5,758.6,107.7,624.9,107.7,624.9z"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
