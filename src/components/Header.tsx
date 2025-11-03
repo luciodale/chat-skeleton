@@ -39,7 +39,7 @@ export function Header({
       <Button onClick={toggleTheme}>
         <MoonIcon />
       </Button>
-      <div className="ml-auto flex items-center gap-2">v0.0.15</div>
+      <div className="ml-auto flex items-center gap-2">v0.0.16</div>
     </div>
   );
 }
