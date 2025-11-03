@@ -32,8 +32,8 @@ export default defineConfig({
           },
         ],
         // acting as fallback before the meta tags in html are loaded
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        theme_color: "#000000",
+        background_color: "#000000",
         display: "standalone",
       },
     }),
