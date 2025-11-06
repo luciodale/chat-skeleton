@@ -30,7 +30,7 @@ export function Header({
   const [selectedModel, setSelectedModel] =
     useState<ModelId>("gemini-2.5-flash");
   return (
-    <div className="sticky top-0 z-10 flex h-14 w-full gap-2 p-2 text-text-primary">
+    <div className="sticky top-0 z-10 flex h-14 w-full items-center gap-2 p-2 text-text-primary">
       {isLeftSidebarCollapsed && (
         <>
           <Button
