@@ -23,18 +23,30 @@ export function Skeleton() {
   const [leftDragX, setLeftDragX] = useState<number | null>(null);
   const [rightDragX, setRightDragX] = useState<number | null>(null);
 
-  const getIsLeftOpen = useCallback(() => !isLeftSidebarCollapsed, [isLeftSidebarCollapsed]);
-  const getIsRightOpen = useCallback(() => !isRightSidebarCollapsed, [isRightSidebarCollapsed]);
+  const getIsLeftOpen = useCallback(
+    () => !isLeftSidebarCollapsed,
+    [isLeftSidebarCollapsed]
+  );
+  const getIsRightOpen = useCallback(
+    () => !isRightSidebarCollapsed,
+    [isRightSidebarCollapsed]
+  );
   const openLeft = useCallback(() => {
     setIsLeftSidebarCollapsed(false);
     setIsRightSidebarCollapsed(true);
   }, [setIsLeftSidebarCollapsed, setIsRightSidebarCollapsed]);
-  const closeLeft = useCallback(() => setIsLeftSidebarCollapsed(true), [setIsLeftSidebarCollapsed]);
+  const closeLeft = useCallback(
+    () => setIsLeftSidebarCollapsed(true),
+    [setIsLeftSidebarCollapsed]
+  );
   const openRight = useCallback(() => {
     setIsRightSidebarCollapsed(false);
     setIsLeftSidebarCollapsed(true);
   }, [setIsRightSidebarCollapsed, setIsLeftSidebarCollapsed]);
-  const closeRight = useCallback(() => setIsRightSidebarCollapsed(true), [setIsRightSidebarCollapsed]);
+  const closeRight = useCallback(
+    () => setIsRightSidebarCollapsed(true),
+    [setIsRightSidebarCollapsed]
+  );
 
   useMobileSwipePanes({
     getIsLeftOpen,
@@ -49,7 +61,7 @@ export function Skeleton() {
 
   return (
     <ChatProvider>
-      <div className="flex" style={{ height: "100dvh" }}>
+      <div className="flex h-full safe-area-inset-top">
         <div className="relative z-0 flex h-full w-full overflow-hidden">
           <LeftSidebar
             isLeftSidebarCollapsed={isLeftSidebarCollapsed}

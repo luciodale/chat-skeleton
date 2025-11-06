@@ -51,7 +51,7 @@ export function RightSidebar({
           : {}),
       }}
       className={cn(
-        "z-20 hide-scrollbar border-l border-border-light bg-background py-1 transition-all duration-200 w-[340px] sm:w-[352px] opacity-100",
+        "safe-area-inset-top z-20 hide-scrollbar border-l border-border-light bg-background py-1 transition-all duration-200 w-[340px] sm:w-[352px] opacity-100",
         isSmallScreen && "fixed right-0 top-0 bottom-0"
       )}
     >

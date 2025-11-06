@@ -21,7 +21,12 @@ export function LeftSidebar({
   dragTranslateX,
 }: LeftSidebarProps) {
   const isSmallScreen = useMediaQuery("small");
-  const { conversations, currentConversation, selectConversation, createNewConversation } = useChat();
+  const {
+    conversations,
+    currentConversation,
+    selectConversation,
+    createNewConversation,
+  } = useChat();
 
   return (
     <>
@@ -48,7 +53,7 @@ export function LeftSidebar({
             : {}),
         }}
         className={cn(
-          "top-0 bottom-0 z-50 active w-[320px] md:w-[260px] shrink-0 transform overflow-x-hidden bg-surface-primary-alt transition-all duration-200 ease-in-out",
+          "safe-area-inset-top top-0 bottom-0 z-50 active w-[320px] md:w-[260px] shrink-0 transform overflow-x-hidden bg-surface-primary-alt transition-all duration-200 ease-in-out",
           isSmallScreen && "fixed left-0 top-0 bottom-0"
         )}
       >
