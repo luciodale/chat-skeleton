@@ -89,7 +89,7 @@ export function Header({
           />
         );
       })()}
-      <div className="ml-auto flex items-center gap-2">v0.0.20</div>
+      <div className="ml-auto flex items-center gap-2">v0.0.21</div>
     </div>
   );
 }

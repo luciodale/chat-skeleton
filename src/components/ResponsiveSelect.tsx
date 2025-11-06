@@ -56,13 +56,12 @@ export function ResponsiveSelect<T extends string>(
     <>
       {/* Mobile: native select for best UX */}
       <div className="md:hidden flex items-center">
-        {leadingIcon && <span className="mr-2 inline-flex">{leadingIcon}</span>}
         <label className="sr-only" htmlFor={id}>
           {label}
         </label>
         <select
           id={id}
-          className="h-9 rounded-md border border-border-light bg-surface-secondary px-2 text-sm text-text-primary"
+          className="h-10 rounded-xl border border-border-light bg-surface-secondary px-3 text-sm text-text-primary cursor-pointer"
           value={value}
           onChange={(e) => onChange(e.target.value as T)}
         >
