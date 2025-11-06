@@ -6,6 +6,8 @@ import { SidebarIcon } from "../icons/SidebarIcon";
 import { Button } from "./Button";
 import { useTheme } from "../hooks/useTheme";
 import { MoonIcon } from "../icons/MoonIcon";
+import { SunIcon } from "../icons/SunIcon";
+import { MonitorIcon } from "../icons/MonitorIcon";
 import { ResponsiveSelect } from "./ResponsiveSelect";
 
 type HeaderProps = {
@@ -18,7 +20,7 @@ export function Header({
   setIsLeftSidebarCollapsed,
 }: HeaderProps) {
   const { createNewConversation } = useChat();
-  const { toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const MODEL_OPTIONS = [
     { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
     { id: "gemini-2.0-pro", label: "Gemini 2.0 Pro" },
@@ -49,10 +51,45 @@ export function Header({
         onChange={(v) => setSelectedModel(v)}
         leadingIcon={<GoogleIcon />}
       />
-      <Button onClick={toggleTheme}>
-        <MoonIcon />
-      </Button>
-      <div className="ml-auto flex items-center gap-2">v0.0.19</div>
+      {(() => {
+        const THEME_OPTIONS = [
+          { id: "light", label: "Light" },
+          { id: "dark", label: "Dark" },
+          { id: "system", label: "System" },
+        ] as const;
+        type ThemeId = (typeof THEME_OPTIONS)[number]["id"];
+        const iconFor = (id: ThemeId) =>
+          id === "dark" ? (
+            <MoonIcon />
+          ) : id === "light" ? (
+            <SunIcon />
+          ) : (
+            <MonitorIcon />
+          );
+        return (
+          <ResponsiveSelect<ThemeId>
+            id="theme-select"
+            label="Theme"
+            options={THEME_OPTIONS}
+            value={theme as ThemeId}
+            onChange={(v) => setTheme(v)}
+            renderTrigger={(selected) => (
+              <span
+                aria-label={selected?.label ?? "Theme"}
+                title={selected?.label}
+              >
+                {iconFor((selected?.id ?? "system") as ThemeId)}
+              </span>
+            )}
+            renderOption={(opt) => (
+              <span className="inline-flex items-center" title={opt.label}>
+                {iconFor(opt.id as ThemeId)}
+              </span>
+            )}
+          />
+        );
+      })()}
+      <div className="ml-auto flex items-center gap-2">v0.0.20</div>
     </div>
   );
 }

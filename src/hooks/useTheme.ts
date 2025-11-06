@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-export type Theme = "light" | "dark";
+export type Theme = "light" | "dark" | "system";
 
 const THEME_STORAGE_KEY = "theme";
 
@@ -10,9 +10,9 @@ function getSystemPrefersDark(): boolean {
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-function applyThemeClass(theme: Theme) {
+function applyThemeClass(effectiveTheme: "light" | "dark") {
   const root = document.documentElement;
-  if (theme === "dark") {
+  if (effectiveTheme === "dark") {
     root.classList.add("dark");
   } else {
     root.classList.remove("dark");
@@ -22,7 +22,7 @@ function applyThemeClass(theme: Theme) {
 function readStoredTheme(): Theme | null {
   try {
     const v = localStorage.getItem(THEME_STORAGE_KEY);
-    return v === "dark" || v === "light" ? v : null;
+    return v === "dark" || v === "light" || v === "system" ? v : null;
   } catch {
     return null;
   }
@@ -39,28 +39,34 @@ function writeStoredTheme(theme: Theme) {
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(() => {
     const stored = readStoredTheme();
-    return stored ?? (getSystemPrefersDark() ? "dark" : "light");
+    return stored ?? "system";
   });
 
-  // Apply class on mount and whenever theme changes
-  useEffect(() => {
-    applyThemeClass(theme);
-  }, [theme]);
+  const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() =>
+    getSystemPrefersDark()
+  );
 
-  // Track system changes only when user has not chosen explicitly
+  // Listen to system changes when in system mode
   useEffect(() => {
-    if (readStoredTheme() !== null) return;
+    if (
+      typeof window === "undefined" ||
+      typeof window.matchMedia !== "function"
+    )
+      return;
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const listener = (e: MediaQueryListEvent) => {
-      setThemeState(e.matches ? "dark" : "light");
-    };
-    mediaQueryList.addEventListener("change", listener);
-
-    return () => {
-      mediaQueryList.removeEventListener("change", listener);
-    };
+    function handleChange(e: MediaQueryListEvent) {
+      setSystemPrefersDark(e.matches);
+    }
+    mediaQueryList.addEventListener("change", handleChange);
+    return () => mediaQueryList.removeEventListener("change", handleChange);
   }, []);
+
+  // Apply class whenever the effective theme changes
+  useEffect(() => {
+    const effective: "light" | "dark" =
+      theme === "system" ? (systemPrefersDark ? "dark" : "light") : theme;
+    applyThemeClass(effective);
+  }, [theme, systemPrefersDark]);
 
   const setTheme = useCallback((next: Theme) => {
     writeStoredTheme(next);
@@ -69,20 +75,35 @@ export function useTheme() {
 
   const toggleTheme = useCallback(() => {
     setThemeState((prev) => {
+      if (prev === "system") {
+        const next = systemPrefersDark ? "light" : "dark";
+        writeStoredTheme(next);
+        return next;
+      }
       const next: Theme = prev === "dark" ? "light" : "dark";
       writeStoredTheme(next);
       return next;
     });
-  }, []);
+  }, [systemPrefersDark]);
+
+  const resolvedTheme = useMemo<"light" | "dark">(
+    () => (theme === "system" ? (systemPrefersDark ? "dark" : "light") : theme),
+    [theme, systemPrefersDark]
+  );
 
   return useMemo(
-    () => ({ theme, setTheme, toggleTheme }),
-    [theme, setTheme, toggleTheme]
+    () => ({ theme, setTheme, toggleTheme, resolvedTheme }),
+    [theme, setTheme, toggleTheme, resolvedTheme]
   );
 }
 
 export function initThemeBeforeReact() {
   const stored = readStoredTheme();
-  const start: Theme = stored ?? (getSystemPrefersDark() ? "dark" : "light");
-  applyThemeClass(start);
+  const startEffective: "light" | "dark" = (() => {
+    if (stored === "system" || stored === null) {
+      return getSystemPrefersDark() ? "dark" : "light";
+    }
+    return stored;
+  })();
+  applyThemeClass(startEffective);
 }
