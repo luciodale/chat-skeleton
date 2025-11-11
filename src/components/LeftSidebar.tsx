@@ -1,3 +1,4 @@
+import { SwipeBarLeft, useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useChat } from "../context/ChatContext";
 import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
@@ -5,7 +6,6 @@ import { SidebarIcon } from "../icons/SidebarIcon";
 import { ThreeDotsIcon } from "../icons/ThreeDotsIcon";
 import { Button } from "./Button";
 import { LeftSidebarItem } from "./LeftSidebarItem";
-import { SwipeBarLeft, useSwipeBarContext } from "@luciodale/swipe-bar";
 
 export function LeftSidebar() {
   const {
@@ -19,6 +19,7 @@ export function LeftSidebar() {
 
   return (
     <SwipeBarLeft>
+      <div>
       <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14 safe-area-inset-top">
         <Button
           onClick={() =>
@@ -47,6 +48,7 @@ export function LeftSidebar() {
             </div>
           </LeftSidebarItem>
         ))}
+      </div>
       </div>
     </SwipeBarLeft>
   );

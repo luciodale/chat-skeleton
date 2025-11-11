@@ -1,9 +1,9 @@
+import { SwipeBarProvider } from "@luciodale/swipe-bar";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
-import "./index.css";
 import { initThemeBeforeReact } from "./hooks/useTheme.ts";
-import { SwipeBarProvider } from "@luciodale/swipe-bar";
+import "./index.css";
 
 // Initialize theme early to avoid FOUC
 initThemeBeforeReact();
