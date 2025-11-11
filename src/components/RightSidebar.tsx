@@ -1,3 +1,4 @@
+import { SwipeBarRight, useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { CubeIcon } from "../icons/CubeIcon";
@@ -6,7 +7,6 @@ import { ShowHideIcon } from "../icons/ShowHideIcon";
 import { RightSidebarAgentBuilder } from "./RightSidebarAgentBuilder";
 import { RightSidebarItem } from "./RightSidebarItem";
 import { RightSidebarPrompts } from "./RightSidebarPrompts";
-import { SwipeBarRight, useSwipeBarContext } from "@luciodale/swipe-bar";
 
 type CurrentItem = "agent-builder" | "prompts";
 
@@ -30,7 +30,7 @@ export function RightSidebar() {
   }, [isRightOpen]);
 
   return (
-    <SwipeBarRight>
+    <SwipeBarRight showOverlay={isSmallScreen}>
       <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-3 safe-area-inset-top">
         <div className="w-full">
           <RightSidebarItem

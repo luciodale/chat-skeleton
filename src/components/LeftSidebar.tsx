@@ -1,4 +1,4 @@
-import { SwipeBarLeft, useSwipeBarContext } from "@luciodale/swipe-bar";
+import { SwipeBarLeft, useMediaQuery, useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useChat } from "../context/ChatContext";
 import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
@@ -15,10 +15,12 @@ export function LeftSidebar() {
     createNewConversation,
   } = useChat();
 
+  const isSmallScreen = useMediaQuery();
+
   const { closeSidebar, isLeftOpen, openSidebar } = useSwipeBarContext();
 
   return (
-    <SwipeBarLeft>
+    <SwipeBarLeft showOverlay={isSmallScreen}>
       <div>
       <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14 safe-area-inset-top">
         <Button

@@ -10,7 +10,7 @@ initThemeBeforeReact();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <SwipeBarProvider>
+    <SwipeBarProvider showOverlay={false}>
       <App />
     </SwipeBarProvider>
   </React.StrictMode>
