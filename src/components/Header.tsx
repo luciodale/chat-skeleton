@@ -82,7 +82,7 @@ export function Header() {
           />
         );
       })()}
-      <div className="ml-auto font-light text-xs gap-2">v0.0.23</div>
+      <div className="ml-auto font-light text-xs gap-2">v0.0.24</div>
     </div>
   );
 }

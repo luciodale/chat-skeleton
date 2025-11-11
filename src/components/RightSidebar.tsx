@@ -31,7 +31,7 @@ export function RightSidebar() {
 
   return (
     <SwipeBarRight>
-      <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-3">
+      <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-3 safe-area-inset-top">
         <div className="w-full">
           <RightSidebarItem
             active={currentItem === "agent-builder"}

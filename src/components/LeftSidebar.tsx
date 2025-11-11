@@ -19,7 +19,7 @@ export function LeftSidebar() {
 
   return (
     <SwipeBarLeft>
-      <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14">
+      <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14 safe-area-inset-top">
         <Button
           onClick={() =>
             isLeftOpen ? closeSidebar("left") : openSidebar("left")
