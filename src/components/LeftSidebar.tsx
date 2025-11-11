@@ -21,8 +21,8 @@ export function LeftSidebar() {
 
   return (
     <SwipeBarLeft showOverlay={isSmallScreen}>
-      <div>
-      <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14 safe-area-inset-top">
+      <div className="safe-area-inset-top flex flex-col gap-2">
+      <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14">
         <Button
           onClick={() =>
             isLeftOpen ? closeSidebar("left") : openSidebar("left")
