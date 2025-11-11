@@ -1,73 +1,15 @@
-import { useCallback, useState } from "react";
 import { Chat } from "./components/Chat";
 import { Header } from "./components/Header";
 import { LeftSidebar } from "./components/LeftSidebar";
 import { RightSidebar } from "./components/RightSidebar";
-import { RightSidebarToggle } from "./components/RightSidebarToggle";
 import { ChatProvider } from "./context/ChatContext";
-import {
-  defaultLeftSidebarCollapsed,
-  defaultRightSidebarCollapsed,
-} from "./defaults";
-import { useMobileSwipePanes } from "./hooks/useMobileSwipePanes";
 
 export function Skeleton() {
-  const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(
-    defaultLeftSidebarCollapsed
-  );
-
-  const [isRightSidebarCollapsed, setIsRightSidebarCollapsed] = useState(
-    defaultRightSidebarCollapsed
-  );
-
-  const [leftDragX, setLeftDragX] = useState<number | null>(null);
-  const [rightDragX, setRightDragX] = useState<number | null>(null);
-
-  const getIsLeftOpen = useCallback(
-    () => !isLeftSidebarCollapsed,
-    [isLeftSidebarCollapsed]
-  );
-  const getIsRightOpen = useCallback(
-    () => !isRightSidebarCollapsed,
-    [isRightSidebarCollapsed]
-  );
-  const openLeft = useCallback(() => {
-    setIsLeftSidebarCollapsed(false);
-    setIsRightSidebarCollapsed(true);
-  }, [setIsLeftSidebarCollapsed, setIsRightSidebarCollapsed]);
-  const closeLeft = useCallback(
-    () => setIsLeftSidebarCollapsed(true),
-    [setIsLeftSidebarCollapsed]
-  );
-  const openRight = useCallback(() => {
-    setIsRightSidebarCollapsed(false);
-    setIsLeftSidebarCollapsed(true);
-  }, [setIsRightSidebarCollapsed, setIsLeftSidebarCollapsed]);
-  const closeRight = useCallback(
-    () => setIsRightSidebarCollapsed(true),
-    [setIsRightSidebarCollapsed]
-  );
-
-  useMobileSwipePanes({
-    getIsLeftOpen,
-    getIsRightOpen,
-    openLeft,
-    closeLeft,
-    openRight,
-    closeRight,
-    onLeftDrag: setLeftDragX,
-    onRightDrag: setRightDragX,
-  });
-
   return (
     <ChatProvider>
       <div className="flex h-full safe-area-inset-top">
         <div className="relative z-0 flex h-full w-full overflow-hidden">
-          <LeftSidebar
-            isLeftSidebarCollapsed={isLeftSidebarCollapsed}
-            setIsLeftSidebarCollapsed={setIsLeftSidebarCollapsed}
-            dragTranslateX={leftDragX ?? undefined}
-          />
+          <LeftSidebar />
           <div className="relative flex h-full max-w-full flex-1 flex-col overflow-hidden">
             <div className="h-full relative flex w-full grow overflow-hidden bg-presentation">
               {/* split between main and left component */}
@@ -75,24 +17,13 @@ export function Skeleton() {
                 {/* main chat */}
                 <main className="flex h-full flex-col overflow-y-auto overscroll-contain">
                   <div className="flex h-full w-full flex-col">
-                    <Header
-                      isLeftSidebarCollapsed={isLeftSidebarCollapsed}
-                      setIsLeftSidebarCollapsed={setIsLeftSidebarCollapsed}
-                    />
+                    <Header />
                     <Chat />
                   </div>
                 </main>
                 {/*  right sidebar */}
               </div>
-              <RightSidebarToggle
-                isRightSidebarCollapsed={isRightSidebarCollapsed}
-                setIsRightSidebarCollapsed={setIsRightSidebarCollapsed}
-              />
-              <RightSidebar
-                isRightSidebarCollapsed={isRightSidebarCollapsed}
-                setIsRightSidebarCollapsed={setIsRightSidebarCollapsed}
-                dragTranslateX={rightDragX ?? undefined}
-              />
+              <RightSidebar />
             </div>
           </div>
         </div>

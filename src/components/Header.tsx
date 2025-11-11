@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useChat } from "../context/ChatContext";
 import { GoogleIcon } from "../icons/GoogleIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
@@ -9,18 +9,13 @@ import { MoonIcon } from "../icons/MoonIcon";
 import { SunIcon } from "../icons/SunIcon";
 import { MonitorIcon } from "../icons/MonitorIcon";
 import { ResponsiveSelect } from "./ResponsiveSelect";
+import { useSwipeBarContext } from "@luciodale/swipe-bar";
 
-type HeaderProps = {
-  isLeftSidebarCollapsed: boolean;
-  setIsLeftSidebarCollapsed: Dispatch<SetStateAction<boolean>>;
-};
-
-export function Header({
-  isLeftSidebarCollapsed,
-  setIsLeftSidebarCollapsed,
-}: HeaderProps) {
+export function Header() {
   const { createNewConversation } = useChat();
   const { theme, setTheme } = useTheme();
+  const { isLeftOpen, openSidebar } = useSwipeBarContext();
+
   const MODEL_OPTIONS = [
     { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
     { id: "gemini-2.0-pro", label: "Gemini 2.0 Pro" },
@@ -31,11 +26,9 @@ export function Header({
     useState<ModelId>("gemini-2.5-flash");
   return (
     <div className="sticky top-0 z-10 flex h-14 w-full items-center gap-2 p-2 text-text-primary">
-      {isLeftSidebarCollapsed && (
+      {!isLeftOpen && (
         <>
-          <Button
-            onClick={() => setIsLeftSidebarCollapsed(!isLeftSidebarCollapsed)}
-          >
+          <Button onClick={() => openSidebar("left")}>
             <SidebarIcon />
           </Button>
           <Button onClick={() => createNewConversation()}>
@@ -89,7 +82,7 @@ export function Header({
           />
         );
       })()}
-      <div className="ml-auto font-light text-xs gap-2">v0.0.22</div>
+      <div className="ml-auto font-light text-xs gap-2">v0.0.23</div>
     </div>
   );
 }

@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@luciodale/swipe-bar": "^1.0.1",
     "@tailwindcss/vite": "^4.1.14",
     "clsx": "^2.1.1",
     "react": "^19.2.0",

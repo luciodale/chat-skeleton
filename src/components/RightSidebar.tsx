@@ -1,60 +1,36 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { CubeIcon } from "../icons/CubeIcon";
 import { PromptIcon } from "../icons/PromptIcon";
 import { ShowHideIcon } from "../icons/ShowHideIcon";
-import cn from "../utils/cn";
 import { RightSidebarAgentBuilder } from "./RightSidebarAgentBuilder";
 import { RightSidebarItem } from "./RightSidebarItem";
 import { RightSidebarPrompts } from "./RightSidebarPrompts";
-
-type RightSidebarProps = {
-  isRightSidebarCollapsed: boolean;
-  setIsRightSidebarCollapsed: Dispatch<SetStateAction<boolean>>;
-  dragTranslateX?: number | null;
-};
+import { SwipeBarRight, useSwipeBarContext } from "@luciodale/swipe-bar";
 
 type CurrentItem = "agent-builder" | "prompts";
 
-export function RightSidebar({
-  isRightSidebarCollapsed,
-  setIsRightSidebarCollapsed,
-  dragTranslateX,
-}: RightSidebarProps) {
+export function RightSidebar() {
   const isSmallScreen = useMediaQuery("small");
 
   const [currentItem, setCurrentItem] = useState<CurrentItem | null>();
 
+  const { closeSidebar, isRightOpen, openSidebar } = useSwipeBarContext();
+
   useEffect(() => {
     if (isSmallScreen) {
-      setIsRightSidebarCollapsed(true);
+      closeSidebar("right");
     }
   }, [isSmallScreen]);
 
   useEffect(() => {
-    if (isRightSidebarCollapsed) {
+    if (!isRightOpen) {
       setCurrentItem(null);
     }
-  }, [isRightSidebarCollapsed]);
+  }, [isRightOpen]);
 
   return (
-    <nav
-      style={{
-        ...(dragTranslateX != null
-          ? {
-              transform: `translate3d(${dragTranslateX}px, 0, 0)`,
-              transition: "none",
-              willChange: "transform",
-            }
-          : isRightSidebarCollapsed
-          ? { transform: "translateX(100%)", width: "0px" }
-          : {}),
-      }}
-      className={cn(
-        "safe-area-inset-top z-20 hide-scrollbar border-l border-border-light bg-background py-1 transition-all duration-200 w-[340px] sm:w-[352px] opacity-100",
-        isSmallScreen && "fixed right-0 top-0 bottom-0"
-      )}
-    >
+    <SwipeBarRight>
       <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-3">
         <div className="w-full">
           <RightSidebarItem
@@ -84,11 +60,15 @@ export function RightSidebar({
           </RightSidebarItem>
           <RightSidebarPrompts isVisible={currentItem === "prompts"} />
         </div>
-        <RightSidebarItem onClick={() => setIsRightSidebarCollapsed(true)}>
+        <RightSidebarItem
+          onClick={() =>
+            isRightOpen ? closeSidebar("right") : openSidebar("right")
+          }
+        >
           <ShowHideIcon />
           Hide Panel
         </RightSidebarItem>
       </div>
-    </nav>
+    </SwipeBarRight>
   );
 }
