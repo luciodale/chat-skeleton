@@ -41,8 +41,8 @@ export function RightSidebar() {
       showOverlay={isSmallScreen}
       toggleIconColor={theme === "light" ? "black" : "white"}
     >
-      <GlassBubbles side="right" />
-      <div className="safe-area-inset-top relative z-10">
+      <div className="safe-area-inset-top relative z-10 h-full">
+        <GlassBubbles side="right" />
         <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-2">
           <div className="w-full">
             <RightSidebarItem

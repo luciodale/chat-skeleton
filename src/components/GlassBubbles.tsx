@@ -17,4 +17,3 @@ export function GlassBubbles({ side }: { side: "left" | "right" }) {
     </div>
   );
 }
-

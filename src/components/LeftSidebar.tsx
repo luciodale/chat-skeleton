@@ -35,8 +35,8 @@ export function LeftSidebar() {
       showOverlay={isSmallScreen}
       toggleIconColor={theme === "light" ? "black" : "white"}
     >
-      <GlassBubbles side="left" />
-      <div className="safe-area-inset-top relative z-10">
+      <div className="safe-area-inset-top relative z-10 h-full">
+        <GlassBubbles side="left" />
         <div className="flex flex-col">
           <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14">
             <Button
