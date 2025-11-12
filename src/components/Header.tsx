@@ -1,7 +1,7 @@
 import { useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useState } from "react";
 import { useChat } from "../context/ChatContext";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 import { GoogleIcon } from "../icons/GoogleIcon";
 import { MonitorIcon } from "../icons/MonitorIcon";
 import { MoonIcon } from "../icons/MoonIcon";
@@ -82,7 +82,7 @@ export function Header() {
           />
         );
       })()}
-      <div className="ml-auto font-light text-xs gap-2">v0.0.25</div>
+      <div className="ml-auto font-light text-xs gap-2">v0.0.30</div>
     </div>
   );
 }

@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 export type Theme = "light" | "dark" | "system";
 
@@ -36,7 +44,15 @@ function writeStoredTheme(theme: Theme) {
   }
 }
 
-export function useTheme() {
+type ThemeContextValue = {
+  theme: Theme;
+  setTheme: (next: Theme) => void;
+  resolvedTheme: "light" | "dark";
+};
+
+const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     const stored = readStoredTheme();
     return stored ?? "system";
@@ -73,28 +89,27 @@ export function useTheme() {
     setThemeState(next);
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    setThemeState((prev) => {
-      if (prev === "system") {
-        const next = systemPrefersDark ? "light" : "dark";
-        writeStoredTheme(next);
-        return next;
-      }
-      const next: Theme = prev === "dark" ? "light" : "dark";
-      writeStoredTheme(next);
-      return next;
-    });
-  }, [systemPrefersDark]);
-
   const resolvedTheme = useMemo<"light" | "dark">(
     () => (theme === "system" ? (systemPrefersDark ? "dark" : "light") : theme),
     [theme, systemPrefersDark]
   );
 
-  return useMemo(
-    () => ({ theme, setTheme, toggleTheme, resolvedTheme }),
-    [theme, setTheme, toggleTheme, resolvedTheme]
+  const value = useMemo(
+    () => ({ theme, setTheme, resolvedTheme }),
+    [theme, setTheme, resolvedTheme]
   );
+
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 }
 
 export function initThemeBeforeReact() {

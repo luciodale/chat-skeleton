@@ -15,8 +15,11 @@ export function RightSidebarItem({
     <div
       onClick={onClick}
       className={cn(
-        "cursor-pointer inline-flex items-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-border-light hover:bg-accent hover:text-accent-foreground h-9 rounded-lg px-3 w-full justify-start bg-transparent text-text-secondary",
-        active && "bg-accent text-accent-foreground"
+        "cursor-pointer inline-flex items-center gap-2 text-sm font-medium transition-all h-9 rounded-lg px-3 w-full justify-start",
+        "border border-border-light",
+        "hover:bg-accent-foreground/10",
+        "text-text-secondary",
+        active && "bg-accent-foreground/5 text-text-primary"
       )}
     >
       {children}
