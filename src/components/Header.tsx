@@ -1,15 +1,15 @@
+import { useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useState } from "react";
 import { useChat } from "../context/ChatContext";
+import { useTheme } from "../hooks/useTheme";
 import { GoogleIcon } from "../icons/GoogleIcon";
+import { MonitorIcon } from "../icons/MonitorIcon";
+import { MoonIcon } from "../icons/MoonIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
 import { SidebarIcon } from "../icons/SidebarIcon";
-import { Button } from "./Button";
-import { useTheme } from "../hooks/useTheme";
-import { MoonIcon } from "../icons/MoonIcon";
 import { SunIcon } from "../icons/SunIcon";
-import { MonitorIcon } from "../icons/MonitorIcon";
+import { Button } from "./Button";
 import { ResponsiveSelect } from "./ResponsiveSelect";
-import { useSwipeBarContext } from "@luciodale/swipe-bar";
 
 export function Header() {
   const { createNewConversation } = useChat();
@@ -82,7 +82,7 @@ export function Header() {
           />
         );
       })()}
-      <div className="ml-auto font-light text-xs gap-2">v0.0.24</div>
+      <div className="ml-auto font-light text-xs gap-2">v0.0.25</div>
     </div>
   );
 }

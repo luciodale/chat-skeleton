@@ -31,7 +31,8 @@ export function RightSidebar() {
 
   return (
     <SwipeBarRight showOverlay={isSmallScreen}>
-      <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-3 safe-area-inset-top">
+      <div className="safe-area-inset-top"> 
+      <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-2">
         <div className="w-full">
           <RightSidebarItem
             active={currentItem === "agent-builder"}
@@ -68,6 +69,7 @@ export function RightSidebar() {
           <ShowHideIcon />
           Hide Panel
         </RightSidebarItem>
+      </div>
       </div>
     </SwipeBarRight>
   );

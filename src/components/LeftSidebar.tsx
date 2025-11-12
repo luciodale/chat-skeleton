@@ -21,7 +21,8 @@ export function LeftSidebar() {
 
   return (
     <SwipeBarLeft showOverlay={isSmallScreen}>
-      <div className="safe-area-inset-top flex flex-col gap-2">
+      <div className="safe-area-inset-top">
+      <div className="flex flex-col">
       <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14">
         <Button
           onClick={() =>
@@ -50,6 +51,7 @@ export function LeftSidebar() {
             </div>
           </LeftSidebarItem>
         ))}
+      </div>
       </div>
       </div>
     </SwipeBarLeft>
