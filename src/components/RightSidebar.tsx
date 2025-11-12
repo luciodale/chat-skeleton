@@ -5,7 +5,7 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 import { CubeIcon } from "../icons/CubeIcon";
 import { PromptIcon } from "../icons/PromptIcon";
 import { ShowHideIcon } from "../icons/ShowHideIcon";
-import { GlassBubbles } from "./GlassBubbles";
+
 import { RightSidebarAgentBuilder } from "./RightSidebarAgentBuilder";
 import { RightSidebarItem } from "./RightSidebarItem";
 import { RightSidebarPrompts } from "./RightSidebarPrompts";
@@ -36,13 +36,12 @@ export function RightSidebar() {
   return (
     <SwipeBarRight
       className={
-        "border-l border-white/30 dark:border-white/10 shadow-md relative overflow-hidden"
+        "bg-presentation border-l border-border-light shadow-md relative overflow-hidden"
       }
       showOverlay={isSmallScreen}
       toggleIconColor={theme === "light" ? "black" : "white"}
     >
       <div className="safe-area-inset-top relative z-10 h-full">
-        <GlassBubbles side="right" />
         <div className="flex flex-col items-center w-full justify-between gap-2 py-2 px-2">
           <div className="w-full">
             <RightSidebarItem

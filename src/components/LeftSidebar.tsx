@@ -9,7 +9,6 @@ import { NewChatIcon } from "../icons/NewChatIcon";
 import { SidebarIcon } from "../icons/SidebarIcon";
 import { ThreeDotsIcon } from "../icons/ThreeDotsIcon";
 import { Button } from "./Button";
-import { GlassBubbles } from "./GlassBubbles";
 import { LeftSidebarItem } from "./LeftSidebarItem";
 import { useTheme } from "../context/ThemeContext";
 
@@ -30,13 +29,12 @@ export function LeftSidebar() {
   return (
     <SwipeBarLeft
       className={
-        "border-r border-white/30 dark:border-white/10 shadow-md relative overflow-hidden"
+        "bg-presentation border-r border-border-light shadow-md relative overflow-hidden"
       }
       showOverlay={isSmallScreen}
       toggleIconColor={theme === "light" ? "black" : "white"}
     >
       <div className="safe-area-inset-top relative z-10 h-full">
-        <GlassBubbles side="left" />
         <div className="flex flex-col">
           <div className="z-20 flex items-center w-full justify-between gap-4 p-2 h-14">
             <Button
