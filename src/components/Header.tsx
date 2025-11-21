@@ -1,9 +1,7 @@
 import { useSwipeBarContext } from "@luciodale/swipe-bar";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useChat } from "../context/ChatContext";
 import { useTheme } from "../context/ThemeContext";
-import { GoogleIcon } from "../icons/GoogleIcon";
 import { MonitorIcon } from "../icons/MonitorIcon";
 import { MoonIcon } from "../icons/MoonIcon";
 import { NewChatIcon } from "../icons/NewChatIcon";
@@ -17,14 +15,6 @@ export function Header() {
   const { theme, setTheme } = useTheme();
   const { isLeftOpen, openSidebar } = useSwipeBarContext();
 
-  const MODEL_OPTIONS = [
-    { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
-    { id: "gemini-2.0-pro", label: "Gemini 2.0 Pro" },
-    { id: "gemini-1.5-flash", label: "Gemini 1.5 Flash" },
-  ] as const;
-  type ModelId = (typeof MODEL_OPTIONS)[number]["id"];
-  const [selectedModel, setSelectedModel] =
-    useState<ModelId>("gemini-2.5-flash");
   return (
     <div className="sticky top-0 z-10 flex h-14 w-full items-center gap-2 p-2 text-text-primary">
       {!isLeftOpen && (
