@@ -22,7 +22,7 @@ export default defineConfig({
         background_color: "#000000",
         theme_color: "#ffffff",
         lang: "en",
-        start_url: "index.html",
+        start_url: "/",
         categories: ["productivity", "ai", "messaging"],
         icons: [
           {
