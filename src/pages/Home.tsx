@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SwipeBarRight, useSwipeBarContext } from "@luciodale/swipe-bar";
 import { useTheme } from "../context/ThemeContext";
 import { WaveBackground } from "../components/WaveBackground";
+import { useNativeAuth } from "../hooks/useNativeAuth";
 
 // Import Swiper styles
 import "swiper/css";
@@ -116,12 +117,28 @@ export function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const { isRightOpen, openSidebar, closeSidebar } = useSwipeBarContext();
   const { resolvedTheme } = useTheme();
+  const { isNative, isLoading, isAuthenticated, token, error, state } =
+    useNativeAuth();
+
+  console.log(isNative, isLoading, isAuthenticated, token, error, state);
 
   const filteredPresets = PRESETS.filter(
     (preset) =>
       preset.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       preset.caption.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Show loading spinner on native platforms while checking auth
+  if (isNative && isLoading) {
+    return (
+      <div className="h-screen bg-black flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+          <p className="text-white/60 text-sm">Authenticating...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen bg-black text-white flex flex-col relative overflow-hidden safe-area-inset-top safe-area-inset-bottom font-sans">
@@ -165,154 +182,207 @@ export function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 relative z-10 px-4 space-y-6 overflow-y-auto overflow-x-hidden pb-20 pt-24 scrollbar-hide">
-        {/* Title */}
-        <div className="space-y-2 pt-4">
-          <h1 className="text-5xl font-bold leading-tight tracking-tight">
-            Create,
-            <br />
-            explore,
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              be inspired.
-            </span>
-          </h1>
-        </div>
-
-        {/* Search Input */}
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-            <svg
-              className="w-5 h-5 text-gray-400 group-focus-within:text-white transition-colors"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-          <input
-            type="text"
-            placeholder="Search presets..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-transparent border border-white/70 rounded-2xl py-2 pl-12 pr-4 text-lg placeholder-gray-500 text-white focus:outline-none focus:border-white/90 transition-colors"
-          />
-        </div>
-
-        {/* Carousel Section */}
-        <div className="space-y-4">
-          {/* Swiper for Presets */}
-          <div className="-mx-4">
-            {filteredPresets.length > 0 ? (
-              <Swiper
-                slidesPerView={2.3}
-                spaceBetween={16}
-                slidesOffsetBefore={16}
-                slidesOffsetAfter={16}
-                grabCursor={true}
-                className="w-full !pb-4"
-              >
-                {filteredPresets.map((preset) => (
-                  <SwiperSlide key={preset.id} className="!h-auto">
-                    <Link
-                      to="/chat"
-                      className="bg-white/5 border border-white/10 rounded-3xl p-5 relative hover:bg-white/10 transition-colors group flex flex-col justify-between backdrop-blur-sm h-40"
-                    >
-                      <div>
-                        <span className="text-lg font-medium text-gray-200 leading-tight capitalize tracking-wider block mb-1">
-                          {preset.caption}
-                        </span>
-                        <div className="text-white/80 group-hover:text-white transition-colors mb-2">
-                          {preset.icon}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-end">
-                        <div className="absolute bottom-5 right-5">
-                          <svg
-                            className="w-5 h-5 text-white/50 group-hover:text-white transition-colors transform -rotate-45"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={1.5}
-                              d="M14 5l7 7m0 0l-7 7m7-7H3"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              <div className="px-6">
-                <div className="bg-white/5 border border-white/10 rounded-3xl p-5 flex items-center justify-center backdrop-blur-sm h-40">
-                  <p className="text-gray-400 text-center">
-                    No templates match your search.
+      <main className="flex-1 relative z-10 px-4 md:px-8 lg:px-12 overflow-y-auto overflow-x-hidden pb-20 pt-24 scrollbar-hide">
+        <div className="max-w-5xl mx-auto space-y-6">
+          {/* Auth Debug Panel */}
+          {isNative && (
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-2">
+              <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider">
+                Native Auth Status
+              </h3>
+              <div className="text-sm space-y-1">
+                <p className="text-gray-400">
+                  Status:{" "}
+                  <span
+                    className={
+                      isAuthenticated
+                        ? "text-green-400"
+                        : error
+                        ? "text-red-400"
+                        : "text-yellow-400"
+                    }
+                  >
+                    {state.status}
+                  </span>
+                </p>
+                {token && (
+                  <p className="text-gray-400 break-all">
+                    Token:{" "}
+                    <span className="text-blue-400 font-mono">{token}</span>
                   </p>
-                </div>
+                )}
+                {error && (
+                  <p className="text-red-400">
+                    Error: {error.code}
+                    {error.message && ` - ${error.message}`}
+                  </p>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          )}
 
-        {/* History Section */}
-        <div className="space-y-4 pt-4">
-          <h2 className="text-xl font-semibold tracking-wide">History</h2>
-          <div className="space-y-4">
-            {HISTORY.map((item) => (
-              <Link
-                key={item.id}
-                to="/chat"
-                className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group backdrop-blur-sm"
+          {/* Title */}
+          <div className="space-y-2 pt-4">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+              Create,
+              <br />
+              explore,
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                be inspired.
+              </span>
+            </h1>
+          </div>
+
+          {/* Search Input */}
+          <div className="relative group max-w-xl">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+              <svg
+                className="w-5 h-5 text-gray-400 group-focus-within:text-white transition-colors"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-base capitalize font-medium text-white group-hover:text-blue-300 transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-gray-500">{item.subtitle}</p>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search presets..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border border-white/70 rounded-2xl py-2 md:py-3 pl-12 pr-4 text-lg placeholder-gray-500 text-white focus:outline-none focus:border-white/90 transition-colors"
+            />
+          </div>
+
+          {/* Carousel Section */}
+          <div className="space-y-4">
+            {/* Swiper for Presets */}
+            <div className="-mx-4 md:mx-0">
+              {filteredPresets.length > 0 ? (
+                <Swiper
+                  slidesPerView={2.3}
+                  spaceBetween={16}
+                  slidesOffsetBefore={16}
+                  slidesOffsetAfter={16}
+                  grabCursor={true}
+                  className="w-full !pb-4"
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 3,
+                      spaceBetween: 20,
+                      slidesOffsetBefore: 0,
+                      slidesOffsetAfter: 0,
+                    },
+                    1024: {
+                      slidesPerView: 4,
+                      spaceBetween: 24,
+                      slidesOffsetBefore: 0,
+                      slidesOffsetAfter: 0,
+                    },
+                  }}
+                >
+                  {filteredPresets.map((preset) => (
+                    <SwiperSlide key={preset.id} className="!h-auto">
+                      <Link
+                        to="/chat"
+                        className="bg-white/5 border border-white/10 rounded-3xl p-5 relative hover:bg-white/10 transition-colors group flex flex-col justify-between backdrop-blur-sm h-40"
+                      >
+                        <div>
+                          <span className="text-lg font-medium text-gray-200 leading-tight capitalize tracking-wider block mb-1">
+                            {preset.caption}
+                          </span>
+                          <div className="text-white/80 group-hover:text-white transition-colors mb-2">
+                            {preset.icon}
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-end">
+                          <div className="absolute bottom-5 right-5">
+                            <svg
+                              className="w-5 h-5 text-white/50 group-hover:text-white transition-colors transform -rotate-45"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </Link>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <div className="px-6">
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-5 flex items-center justify-center backdrop-blur-sm h-40">
+                    <p className="text-gray-400 text-center">
+                      No templates match your search.
+                    </p>
                   </div>
                 </div>
-                <svg
-                  className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              )}
+            </div>
+          </div>
+
+          {/* History Section */}
+          <div className="space-y-4 pt-4">
+            <h2 className="text-xl font-semibold tracking-wide">History</h2>
+            <div className="space-y-4">
+              {HISTORY.map((item) => (
+                <Link
+                  key={item.id}
+                  to="/chat"
+                  className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group backdrop-blur-sm"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
-            ))}
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white transition-colors">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-base capitalize font-medium text-white group-hover:text-blue-300 transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-gray-500">{item.subtitle}</p>
+                    </div>
+                  </div>
+                  <svg
+                    className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </main>
