@@ -1,22 +1,35 @@
-export interface NativeAuthResult {
-  token: string;
-  userID: string;
-  expiresAt: string; // ISO8601 date string
-}
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+};
 
-export interface NativeAuthError {
+export type LoginResult = {
+  token: string;
+  expiresAt: string;
+  user: User;
+};
+
+export type LogoutResult = {
+  success: boolean;
+};
+
+export type GetCurrentUserResult = {
+  user?: User;
+};
+
+export type IsAuthenticatedResult = {
+  authenticated: boolean;
+};
+
+export type AuthError = {
   code: string;
   message?: string;
-}
+};
 
-export interface NativeAuth {
-  get: () => Promise<NativeAuthResult | null>;
-  login: () => Promise<NativeAuthResult>;
-  clear: () => Promise<{ ok: boolean }>;
-}
-
-declare global {
-  interface Window {
-    NativeAuth?: NativeAuth;
-  }
-}
+export type AuthPlugin = {
+  login: () => Promise<LoginResult>;
+  logout: () => Promise<LogoutResult>;
+  getCurrentUser: () => Promise<GetCurrentUserResult>;
+  isAuthenticated: () => Promise<IsAuthenticatedResult>;
+};

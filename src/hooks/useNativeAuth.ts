@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
-import { Capacitor } from "@capacitor/core";
-import type { NativeAuthResult, NativeAuthError } from "../types/native-auth";
+import { Capacitor, registerPlugin } from "@capacitor/core";
+import type { User, AuthError, AuthPlugin } from "../types/native-auth";
+
+const Auth = registerPlugin<AuthPlugin>("Auth");
 
 type AuthState =
   | { status: "idle" }
   | { status: "loading" }
-  | { status: "authenticated"; auth: NativeAuthResult }
+  | { status: "authenticated"; user: User; token: string }
   | { status: "unauthenticated" }
-  | { status: "error"; error: NativeAuthError };
+  | { status: "error"; error: AuthError };
 
 export function useNativeAuth() {
   const isNative = Capacitor.isNativePlatform();
@@ -20,23 +22,29 @@ export function useNativeAuth() {
 
     const checkAuth = async () => {
       try {
-        const auth = await window.NativeAuth?.get();
-        if (auth) {
-          console.log("[NativeAuth] Token retrieved:", auth.token);
-          setState({ status: "authenticated", auth });
-        } else {
-          console.log("[NativeAuth] No existing auth, triggering login...");
-          const newAuth = await window.NativeAuth?.login();
-          if (newAuth) {
-            console.log("[NativeAuth] Login successful:", newAuth.token);
-            setState({ status: "authenticated", auth: newAuth });
+        const { authenticated } = await Auth.isAuthenticated();
+
+        if (authenticated) {
+          const { user } = await Auth.getCurrentUser();
+          if (user) {
+            console.log("[Auth] User already authenticated:", user.email);
+            setState({ status: "authenticated", user, token: "" });
           } else {
             setState({ status: "unauthenticated" });
           }
+        } else {
+          console.log("[Auth] Not authenticated, triggering login...");
+          const result = await Auth.login();
+          console.log("[Auth] Login successful:", result.user.email);
+          setState({
+            status: "authenticated",
+            user: result.user,
+            token: result.token,
+          });
         }
       } catch (e) {
-        const error = e as NativeAuthError;
-        console.error("[NativeAuth] Failed:", error);
+        const error = e as AuthError;
+        console.error("[Auth] Failed:", error);
         setState({ status: "error", error });
       }
     };
@@ -45,41 +53,39 @@ export function useNativeAuth() {
   }, [isNative]);
 
   const login = useCallback(async () => {
-    if (!isNative || !window.NativeAuth) {
-      console.warn("[NativeAuth] Not available on this platform");
+    if (!isNative) {
+      console.warn("[Auth] Not available on this platform");
       return null;
     }
 
     setState({ status: "loading" });
 
     try {
-      const auth = await window.NativeAuth.login();
-      console.log("[NativeAuth] Login successful, token:", auth.token);
-      setState({ status: "authenticated", auth });
-      return auth;
+      const result = await Auth.login();
+      console.log("[Auth] Login successful:", result.user.email);
+      setState({
+        status: "authenticated",
+        user: result.user,
+        token: result.token,
+      });
+      return result;
     } catch (e) {
-      const error = e as NativeAuthError;
-      if (error.code === "ERR_INVALID_CREDENTIALS") {
-        console.warn("[NativeAuth] Invalid credentials");
-      } else {
-        console.error("[NativeAuth] Login failed:", error);
-      }
+      const error = e as AuthError;
+      console.error("[Auth] Login failed:", error);
       setState({ status: "error", error });
       return null;
     }
   }, [isNative]);
 
-  const clear = useCallback(async () => {
-    if (!isNative || !window.NativeAuth?.clear) {
-      return;
-    }
+  const logout = useCallback(async () => {
+    if (!isNative) return;
 
     try {
-      await window.NativeAuth.clear();
-      console.log("[NativeAuth] Auth cleared");
+      await Auth.logout();
+      console.log("[Auth] Logged out");
       setState({ status: "unauthenticated" });
     } catch (e) {
-      console.error("[NativeAuth] Clear failed:", e);
+      console.error("[Auth] Logout failed:", e);
     }
   }, [isNative]);
 
@@ -87,10 +93,11 @@ export function useNativeAuth() {
     isNative,
     state,
     login,
-    clear,
+    logout,
     isLoading: state.status === "loading",
     isAuthenticated: state.status === "authenticated",
-    token: state.status === "authenticated" ? state.auth.token : null,
+    user: state.status === "authenticated" ? state.user : null,
+    token: state.status === "authenticated" ? state.token : null,
     error: state.status === "error" ? state.error : null,
   };
 }

@@ -4,8 +4,7 @@ import CapApp_SPM
 
 class MainViewController: CAPBridgeViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        webView?.installNativeAuthBridge()
+    override func capacitorDidLoad() {
+        bridge?.registerPluginInstance(AuthPlugin())
     }
 }

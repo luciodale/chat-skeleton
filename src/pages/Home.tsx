@@ -117,10 +117,17 @@ export function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const { isRightOpen, openSidebar, closeSidebar } = useSwipeBarContext();
   const { resolvedTheme } = useTheme();
-  const { isNative, isLoading, isAuthenticated, token, error, state } =
-    useNativeAuth();
-
-  console.log(isNative, isLoading, isAuthenticated, token, error, state);
+  const {
+    isNative,
+    isLoading,
+    isAuthenticated,
+    user,
+    token,
+    error,
+    state,
+    login,
+    logout,
+  } = useNativeAuth();
 
   const filteredPresets = PRESETS.filter(
     (preset) =>
@@ -186,10 +193,12 @@ export function Home() {
         <div className="max-w-5xl mx-auto space-y-6">
           {/* Auth Debug Panel */}
           {isNative && (
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-2">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-4">
               <h3 className="text-sm font-semibold text-white/80 uppercase tracking-wider">
                 Native Auth Status
               </h3>
+
+              {/* Status Info */}
               <div className="text-sm space-y-1">
                 <p className="text-gray-400">
                   Status:{" "}
@@ -205,10 +214,26 @@ export function Home() {
                     {state.status}
                   </span>
                 </p>
+                {user && (
+                  <div className="text-gray-400 space-y-1">
+                    <p>
+                      User: <span className="text-purple-400">{user.name}</span>
+                    </p>
+                    <p>
+                      Email:{" "}
+                      <span className="text-purple-400">{user.email}</span>
+                    </p>
+                    <p>
+                      ID: <span className="text-purple-400">{user.id}</span>
+                    </p>
+                  </div>
+                )}
                 {token && (
                   <p className="text-gray-400 break-all">
                     Token:{" "}
-                    <span className="text-blue-400 font-mono">{token}</span>
+                    <span className="text-blue-400 font-mono text-xs">
+                      {token}
+                    </span>
                   </p>
                 )}
                 {error && (
@@ -217,6 +242,24 @@ export function Home() {
                     {error.message && ` - ${error.message}`}
                   </p>
                 )}
+              </div>
+
+              {/* Test Buttons */}
+              <div className="flex flex-wrap gap-2 pt-2">
+                <button
+                  onClick={login}
+                  disabled={isLoading}
+                  className="px-4 py-2 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-medium hover:bg-green-500/30 transition-colors disabled:opacity-50"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={logout}
+                  disabled={isLoading || !isAuthenticated}
+                  className="px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/30 transition-colors disabled:opacity-50"
+                >
+                  Logout
+                </button>
               </div>
             </div>
           )}
